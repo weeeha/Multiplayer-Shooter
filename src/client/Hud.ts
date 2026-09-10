@@ -16,16 +16,17 @@ export class Hud {
       <div class="local-badge"><i></i> LOCAL PROTOTYPE</div>
       <section class="entry panel">
         <div class="eyebrow">COLD RELAY / ABANDONED STATION</div>
-        <h1>Watch<br>your corners<span>.</span></h1>
-        <p>Three shooters. A rabid dog. A zombie.<br>Pick your weapon. Use cover. Stay alive.</p>
+        <div class="dossier-number">OPERATION / 001</div><h1>COLD<br>RELAY<span>_</span></h1>
+        <p>An abandoned station. Five hostiles.<br>Enter light. Keep moving. Make every shot count.</p>
         <button id="start-btn" class="primary">ENTER THE FIELD <span>↗</span></button>
-        <div class="controls"><div><kbd>W A S D</kbd> Move</div><div><kbd>MOUSE</kbd> Aim & fire</div><div><kbd>1 2 3</kbd> Switch gun</div><div><kbd>R</kbd> Reload</div><div><kbd>E</kbd> Door</div><div><kbd>SPACE</kbd> Dash</div></div>
+        <div class="controls"><div><kbd>W A S D</kbd> Move</div><div><kbd>MOUSE</kbd> Aim & fire</div><div><kbd>1 2 3</kbd> Switch gun</div><div><kbd>R</kbd> Reload</div><div><kbd>E</kbd> Door</div><div><kbd>SPACE</kbd> Dash</div><div><kbd>G</kbd> Grenade</div></div>
         <small>Movement & visibility test · No online play or looting yet</small>
       </section>
       <div class="playing-ui" hidden>
-        <div class="mission"><span class="eyebrow">FIELD OBJECTIVE</span><strong>Locate the patrol. Survive contact.</strong><small>Shooters east / northeast · Creatures southeast →</small></div>
+        <div class="mission"><span class="eyebrow">CONTACT REPORT</span><strong>Locate the patrol. Survive contact.</strong><small>Shooters east / northeast · Creatures southeast →</small></div>
         <button class="settings-button" aria-label="Open field settings">⚙ <span>SETTINGS</span></button>
-        <div class="vitals"><div class="health"><span>HEALTH</span><strong id="hp">100</strong><div class="health-track"><i id="health-fill"></i></div></div><div class="armor"><span>ARMOR</span><strong id="armor">50</strong><div class="health-track"><i id="armor-fill"></i></div></div><div class="ammo"><span>9MM PISTOL</span><strong><b id="ammo">12</b><em> / <b id="reserve">48</b></em></strong></div><div class="dash"><span>MOBILITY</span><strong id="dash-status">READY</strong><small>SPACE</small></div></div>
+        <div class="vitals"><div class="health"><span>+ &nbsp; VITAL SIGNS</span><strong id="hp">100</strong><div class="health-track"><i id="health-fill"></i></div></div><div class="armor"><span>◇ &nbsp; ARMOR PLATE</span><strong id="armor">50</strong><div class="health-track"><i id="armor-fill"></i></div></div><div class="ammo"><div class="weapon-caption">EQUIPPED / <b id="fire-mode">SEMI</b></div><svg class="equipped-gun" viewBox="0 0 70 28" aria-hidden="true"><path id="equipped-shape"/></svg><span>9MM PISTOL</span><strong><b id="ammo">12</b><em> / <b id="reserve">48</b></em></strong><div class="magazine-track"><i id="magazine-fill"></i></div><small id="ammo-hint">R / RELOAD</small></div><div class="dash"><span>MOBILITY</span><strong id="dash-status">READY</strong><small>SPACE</small></div></div>
+        <div class="grenade-kit"><kbd>G</kbd><span>FRAG</span><strong id="grenade-count">03</strong></div>
         <div class="weapon-rack" aria-label="Weapons">
           <button data-weapon="pistol" aria-label="Equip pistol"><kbd>1</kbd><svg viewBox="0 0 70 28"><path d="M10 6h42v8H30l-4 12H15l3-12h-8z"/></svg><span>PISTOL</span></button>
           <button data-weapon="ar" aria-label="Equip assault rifle"><kbd>2</kbd><svg viewBox="0 0 70 28"><path d="M3 10h17V7h28v3h18v4H45l-4 12h-9l3-12H23l-3 9h-7l2-9H3z"/></svg><span>AR</span></button>
@@ -33,7 +34,7 @@ export class Hud {
         </div>
         <div class="crosshair" hidden><svg viewBox="0 0 40 40"><path d="M20 3v9M20 28v9M3 20h9M28 20h9"/><circle cx="20" cy="20" r="2"/></svg></div>
         <div class="door-prompt" hidden><kbd>E</kbd><span></span></div>
-        <div class="field-footer"><span>WASD move · Mouse aim / fire · R reload</span><span>THREE-QUARTER / 2D</span></div>
+        <div class="field-footer"><span>WASD move · Mouse fire · R reload · G grenade</span><span>COLD RELAY / SECTOR 01</span></div>
       </div>
       <section class="settings panel" hidden><div class="eyebrow">FIELD SETTINGS</div><h2>Adjust the test.</h2><label><span>Enable dash<small>Short burst · no invulnerability</small></span><input id="dash-toggle" type="checkbox" checked></label><label><span>Collision & sightlines<small>Show debug geometry</small></span><input id="debug-toggle" type="checkbox"></label><button id="fullscreen-btn">Fullscreen ↗</button><button id="restart-btn">Restart field test</button><button id="resume-btn" class="primary">RETURN TO FIELD →</button></section>
       <section class="death panel" hidden><div class="eyebrow">CONTACT LOST</div><h2>You went quiet.</h2><p>Use buildings and cars to break shooters’ sightlines. Keep your distance from the dog and zombie.</p><button id="retry-btn" class="primary">RE-ENTER THE FIELD ↗</button><small>Restart resets this local test.</small></section>
@@ -66,6 +67,7 @@ export class Hud {
     this.root.querySelector<HTMLElement>('.crosshair')!.hidden=!this.pointerInside||mode!=='playing'||this.settings||paused;
     this.root.querySelector<HTMLElement>('.crosshair')!.classList.toggle('wide',w.player.weapon==='shotgun');
     document.querySelector('canvas')!.classList.toggle('aiming',mode==='playing'&&!this.settings&&!paused);
+    this.root.querySelector('#grenade-count')!.textContent=String(w.grenadeCount).padStart(2,'0');
     this.root.querySelector('#armor')!.textContent=String(w.player.armor);
     (this.root.querySelector('#armor-fill') as HTMLElement).style.width=`${w.player.armor/50*100}%`;
     for(const button of this.root.querySelectorAll<HTMLButtonElement>('[data-weapon]')){const active=button.dataset.weapon===w.player.weapon;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));}
@@ -73,6 +75,15 @@ export class Hud {
     (this.root.querySelector('#health-fill') as HTMLElement).style.width=`${w.player.hp}%`;
     this.root.querySelector('#ammo')!.textContent=String(w.player.ammo).padStart(2,'0');
     this.root.querySelector('#reserve')!.textContent=String(w.player.reserve);
+    const gun=w.player.weapon==='none'?'pistol':w.player.weapon;
+    this.root.querySelector('#equipped-shape')!.setAttribute('d',this.root.querySelector(`[data-weapon="${gun}"] path`)!.getAttribute('d')!);
+    this.root.querySelector('#fire-mode')!.textContent=gun==='ar'?'AUTO':gun==='shotgun'?'PUMP':'SEMI';
+    const reload=w.player.reloadRemaining>0;
+    (this.root.querySelector('#magazine-fill') as HTMLElement).style.width=`${reload?(1-w.player.reloadRemaining/WEAPONS[gun].reload)*100:w.player.ammo/WEAPONS[gun].magazine*100}%`;
+    this.root.querySelector('.ammo')!.classList.toggle('reloading',reload);
+    this.root.querySelector('.ammo')!.classList.toggle('low-ammo',!reload&&w.player.ammo<=WEAPONS[gun].magazine*.25);
+    this.root.querySelector('.health')!.classList.toggle('critical',w.player.hp<=25);
+    this.root.querySelector('#ammo-hint')!.textContent=reload?'CHANGING MAGAZINE':w.player.ammo===0?'EMPTY · PRESS R':'R / RELOAD';
     this.root.querySelector('.ammo > span')!.textContent=w.player.reloadRemaining>0?'RELOADING…':w.player.weapon==='none'?'UNARMED':WEAPONS[w.player.weapon].name;
     this.root.querySelector('#dash-status')!.textContent=!w.dashEnabled?'DISABLED':w.player.dashRemaining>0?'DASH':w.player.dashCooldown>0?'RECOVERING':'READY';
     const door=nearbyDoors(w)[0],prompt=this.root.querySelector<HTMLElement>('.door-prompt')!;

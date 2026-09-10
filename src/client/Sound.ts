@@ -1,25 +1,36 @@
 import type {World} from '../shared/model';
-import {distance} from '../shared/geometry';
+import {ShotQueue,synthesizeShot,type Gun} from './gunAudio';
 export class FieldSound {
   private context:AudioContext|null=null;
-  private playerAmmo=12;
-  private robotAmmo=12;
+  private master:GainNode|null=null;
+  private queue=new ShotQueue();
+  private buffers=new Map<Gun,AudioBuffer[]>();
+  private voices=new Set<AudioBufferSourceNode>();
   unlock():void {
-    this.context??=new AudioContext();
-    void this.context.resume();this.playerAmmo=12;this.robotAmmo=12;
+    this.stop();this.queue.reset();
+    if(!this.context){
+      const c=this.context=new AudioContext();
+      this.master=c.createGain();this.master.gain.value=.48;
+      const limiter=c.createDynamicsCompressor();limiter.threshold.value=-8;limiter.knee.value=6;limiter.ratio.value=12;limiter.attack.value=.002;limiter.release.value=.12;
+      this.master.connect(limiter);limiter.connect(c.destination);
+      for(const gun of ['pistol','ar','shotgun','explosion'] as const)this.buffers.set(gun,Array.from({length:4},(_,i)=>{
+        const samples=synthesizeShot(gun,c.sampleRate,9271+i*173),b=c.createBuffer(1,samples.length,c.sampleRate);b.copyToChannel(samples,0);return b;
+      }));
+    }
+    void this.context.resume();
   }
   update(w:World):void {
-    if(w.player.ammo<this.playerAmmo)this.shot(.055,240);
-    if(w.robot.ammo<this.robotAmmo){const gain=Math.max(0,1-distance(w.player.pos,w.robot.pos)/700);if(gain>0)this.shot(.045*gain,135);}
-    this.playerAmmo=w.player.ammo;this.robotAmmo=w.robot.ammo;
+    const shots=this.queue.take(w),c=this.context;if(!c||c.state!=='running')return;
+    for(const s of shots){
+      if(this.voices.size>=24){const oldest=this.voices.values().next().value!;oldest.stop();this.voices.delete(oldest);}
+      const source=c.createBufferSource(),gain=c.createGain(),pan=c.createStereoPanner();
+      source.buffer=this.buffers.get(s.weapon)![s.id%4];source.playbackRate.value=1+((s.id*13%11)-5)*.004;
+      gain.gain.value=s.volume;pan.pan.value=s.pan;
+      source.connect(gain);gain.connect(pan);pan.connect(this.master!);this.voices.add(source);
+      source.onended=()=>{this.voices.delete(source);source.disconnect();gain.disconnect();pan.disconnect();};
+      source.start(c.currentTime+s.delay);
+    }
   }
-  private shot(volume:number,frequency:number):void {
-    const c=this.context;if(!c||c.state!=='running')return;
-    const o=c.createOscillator(),gain=c.createGain();o.type='sawtooth';
-    o.frequency.setValueAtTime(frequency,c.currentTime);o.frequency.exponentialRampToValueAtTime(45,c.currentTime+.075);
-    gain.gain.setValueAtTime(volume,c.currentTime);gain.gain.exponentialRampToValueAtTime(.001,c.currentTime+.085);
-    o.connect(gain);gain.connect(c.destination);o.start();o.stop(c.currentTime+.09);
-    o.onended=()=>{o.disconnect();gain.disconnect();};
-  }
-  destroy():void {void this.context?.close();}
+  stop():void {for(const s of this.voices)s.stop();this.voices.clear();}
+  destroy():void {this.stop();void this.context?.close();}
 }

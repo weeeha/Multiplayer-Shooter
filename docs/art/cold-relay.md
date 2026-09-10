@@ -1,5 +1,7 @@
 # Cold Relay — first playable art pass
 
+This document records the first art pass. [The subsequent combat presentation pass](combat-presentation.md) replaces the initial poses with armed sprites and walking cycles.
+
 Selected by the user: concept B / Cold Relay. Implementation authorized with “okay proceed”.
 
 ## Delivered

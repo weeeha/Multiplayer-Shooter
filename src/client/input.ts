@@ -33,7 +33,7 @@ export class GameInput {
     const target=camera.getWorldPoint((this.pointer.x-canvas.left)*960/canvas.width,(this.pointer.y-canvas.top)*540/canvas.height);
     const aim=this.movedPointer?aimAtPointer(pos,target):previousAim;
     const has=(...codes:string[])=>codes.some(c=>this.held.has(c))?1:0;
-    const frame:InputFrame={move:{x:has('KeyD','ArrowRight')-has('KeyA','ArrowLeft'),y:has('KeyS','ArrowDown')-has('KeyW','ArrowUp')},aim,fire:this.firing,
+    const frame:InputFrame={grenadePressed:this.edges.has('KeyG'),grenadeTarget:this.movedPointer?{x:target.x,y:target.y}:undefined,move:{x:has('KeyD','ArrowRight')-has('KeyA','ArrowLeft'),y:has('KeyS','ArrowDown')-has('KeyW','ArrowUp')},aim,fire:this.firing,
       reloadPressed:this.edges.has('KeyR'),interactPressed:this.edges.has('KeyE'),dashPressed:this.edges.has('Space'),weaponPressed:this.edges.has('Digit1')?'pistol':this.edges.has('Digit2')?'ar':this.edges.has('Digit3')?'shotgun':undefined};
     this.edges.clear();return frame;
   }

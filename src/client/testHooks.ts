@@ -10,6 +10,7 @@ export function installTestHooks(session:LocalSession,advance:(ms:number)=>void,
     const visible=canSee(p.pos,w.robot.pos,blockers,T.sight);
     return JSON.stringify({visuals:visuals(),mode:session.mode,coordinates:'world units; origin top-left; +x right; +y down',time:w.time,
       player:{x:p.pos.x,y:p.pos.y,hp:p.hp,armor:p.armor,weapon:p.weapon,ammo:p.ammo,reserve:p.reserve,aim:p.aim,reloadRemaining:p.reloadRemaining,dashCooldown:p.dashCooldown},
+      grenadeCount:w.grenadeCount,grenades:w.grenades.filter(g=>canSee(p.pos,g.pos,blockers,T.sight)),
       hostilesRemaining:w.enemies.filter(e=>e.actor.hp>0).length,
       visibleEnemies:w.enemies.filter(e=>canSee(p.pos,e.actor.pos,blockers,T.sight)).map(e=>({id:e.actor.id,kind:e.actor.kind,weapon:e.actor.weapon,x:e.actor.pos.x,y:e.actor.pos.y,hp:e.actor.hp,state:e.brain.mode})),
       visibleRobot:visible?{x:w.robot.pos.x,y:w.robot.pos.y,hp:w.robot.hp,state:w.brain.mode}:null,

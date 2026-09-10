@@ -107,5 +107,5 @@ export class WorldView {
     this.debug.clear();
     if(debug){this.debug.lineStyle(1,0xf6935a,.75);for(const b of blockers)this.debug.strokeRect(b.x,b.y,b.w,b.h);this.debug.lineStyle(1,0xbbda8a,.8).strokePoints(this.polygon.map(p=>new Phaser.Math.Vector2(p.x,p.y)),true);this.debug.strokeCircle(pos.x,pos.y,w.player.radius);}
   }
-  visualState():{direction:string;spriteCount:number;particles:number}{return {direction:'cold-relay',spriteCount:this.enemyViews.length+1,particles:this.effects.count};}
+  visualState(){return {direction:'cold-relay',spriteCount:this.enemyViews.length+1,particles:this.effects.count,actors:[this.playerView,...this.enemyViews].map(v=>v.visualState())};}
 }

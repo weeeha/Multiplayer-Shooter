@@ -5,7 +5,8 @@ const dir='output/arsenal-verification';await mkdir(dir,{recursive:true});
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1280,height:720}}),errors=[];
 page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-const state=()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
+const walking=new Set();
+const state=async()=>{const s=await page.evaluate(()=>JSON.parse(window.render_game_to_text()));for(const a of s.visuals.actors??[])if(a.visible&&a.walking)walking.add(a.texture.replace(/^walk-/, '').replace(/-\d-\d$/, ''));return s;};
 const advance=ms=>page.evaluate(ms=>window.advanceTime(ms),ms);
 const tap=async key=>{await page.keyboard.press(key);await advance(34);};
 const aim=async(x,y)=>{const s=await state(),b=await page.locator('canvas').boundingBox();const sx=Math.max(0,Math.min(640,s.player.x-480)),sy=Math.max(0,Math.min(740,s.player.y-270));await page.mouse.move(b.x+(x-sx)*b.width/960,b.y+(y-24-sy)*b.height/540);};
@@ -31,7 +32,7 @@ try{
  await page.getByRole('button',{name:'Equip assault rifle'}).click();await advance(34);assert.equal((await state()).player.ammo,26);
  await tap('KeyR');await advance(1700);assert.equal((await state()).player.ammo,30);assert.equal((await state()).player.reserve,116);
  await page.setViewportSize({width:1060,height:800});await aim(500,570);await advance(34);await shot('hud-resized');
- for(const selector of ['.vitals','.weapon-rack']){const box=await page.locator(selector).boundingBox();assert.ok(box.y>=0&&box.y+box.height<=800,`${selector} stays inside viewport`);}
+ for(const selector of ['.health','.armor','.ammo','.weapon-rack']){const box=await page.locator(selector).boundingBox();assert.ok(box.y>=0&&box.y+box.height<=800,`${selector} stays inside viewport`);}
  await page.setViewportSize({width:1280,height:720});
  await restart();await tap('Digit2');
  await walk('KeyS',2450);await walk('KeyD',3500);
@@ -42,7 +43,8 @@ try{
  for(let i=0;i<20;i++){await engage();await advance(100);}await page.mouse.up();await shot('north-encounter');
  assert.ok(seen.has('dog'));assert.ok(seen.has('zombie'));assert.ok(seen.has('scav-shotgun'));assert.ok(seen.has('scav-ar'));
  assert.ok(dead.has('dog'));assert.ok(dead.has('zombie'));assert.ok(dead.has('scav-shotgun'));assert.ok(dead.has('scav-ar'));
+ for(const id of ['robot','scav-ar','scav-shotgun','dog','zombie'])assert.ok(walking.has(id),`${id} walks in the encounter`);
  assert.deepEqual(errors,[]);
- const report={status:'passed',checks:['Crosshair visible','Health and armor HUD','Keyboard and clickable weapon slots','Weapon-specific firing and reload','Ammo preserved on switch','HUD resize','All new enemies encountered and defeated through normal movement'],seen:[...seen],dead:[...dead],errors};
+ const report={status:'passed',checks:['Crosshair visible','Health and armor HUD','Keyboard and clickable weapon slots','Weapon-specific firing and reload','Ammo preserved on switch','HUD resize','All new enemies encountered and defeated through normal movement'],walking:[...walking],seen:[...seen],dead:[...dead],errors};
  await writeFile(`${dir}/report.json`,JSON.stringify(report,null,2));console.log(report);
 }catch(e){await shot('failure');console.error(e,await state());process.exitCode=1;}finally{await browser.close();}
