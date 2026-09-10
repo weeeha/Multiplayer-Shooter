@@ -15,7 +15,9 @@ export type Projectile = { id: number; ownerId: string; pos: Vec2; velocity: Vec
 export type Noise = { pos: Vec2; remaining: number; sourceId: string };
 export type RobotBrain = { mode: 'patrol' | 'investigate' | 'telegraph' | 'burst' | 'chase' | 'dead'; remaining: number; waypoint: number; lastSeen: Vec2 | null; shotsRemaining: number };
 export type Enemy = {actor:Actor;brain:RobotBrain;patrol:Vec2[]};
+export type CombatEvent = {id:number;time:number;kind:'shot'|'impact'|'death';pos:Vec2;direction:Vec2;actorId:string;material:'metal'|'concrete'|'flesh';weapon?:WeaponId};
 export type World = {
+  events:CombatEvent[];nextEventId:number;
   time: number; map: MapData; player: Actor; robot: Actor; brain: RobotBrain; enemies: Enemy[];
   projectiles: Projectile[]; noises: Noise[]; nextProjectileId: number; dashEnabled: boolean;
 };

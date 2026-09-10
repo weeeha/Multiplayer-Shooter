@@ -8,7 +8,7 @@ page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()
 const state=()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
 const advance=ms=>page.evaluate(ms=>window.advanceTime(ms),ms);
 const tap=async key=>{await page.keyboard.press(key);await advance(34);};
-const aim=async(x,y)=>{const s=await state(),b=await page.locator('canvas').boundingBox();const sx=Math.max(0,Math.min(640,s.player.x-480)),sy=Math.max(0,Math.min(740,s.player.y-270));await page.mouse.move(b.x+(x-sx)*b.width/960,b.y+(y-15-sy)*b.height/540);};
+const aim=async(x,y)=>{const s=await state(),b=await page.locator('canvas').boundingBox();const sx=Math.max(0,Math.min(640,s.player.x-480)),sy=Math.max(0,Math.min(740,s.player.y-270));await page.mouse.move(b.x+(x-sx)*b.width/960,b.y+(y-24-sy)*b.height/540);};
 const shot=async name=>{await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`${dir}/${name}.png`});await writeFile(`${dir}/${name}.json`,JSON.stringify(await state(),null,2));};
 const restart=async()=>{await page.goto('http://127.0.0.1:5173/?test=1');await page.locator('#start-btn').click();await advance(34);};
 const seen=new Set(),dead=new Set();

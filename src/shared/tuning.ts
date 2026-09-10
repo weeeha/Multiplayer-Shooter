@@ -1,4 +1,5 @@
 export const T = {
+  visualAimHeight:24,
   step: 1 / 30, moveSpeed: 220, radius: 12, sight: 420,
   dashSpeed: 520, dashDuration: .14, dashCooldown: .75,
   magazine: 12, reserve: 48, damage: 25, projectileSpeed: 900,

@@ -1,9 +1,10 @@
 import type Phaser from 'phaser';
 import type {InputFrame,Vec2} from '../shared/model';
+import {T} from '../shared/tuning';
 import {normalized} from '../shared/geometry';
 export function aimAtPointer(pos:Vec2,pointerWorld:Vec2):Vec2 {
-  // Sprites and projectiles are drawn 15 units above the collision plane.
-  return normalized({x:pointerWorld.x-pos.x,y:pointerWorld.y+15-pos.y});
+  // The cursor aims through the torso plane shared by weapons and tracers.
+  return normalized({x:pointerWorld.x-pos.x,y:pointerWorld.y+T.visualAimHeight-pos.y});
 }
 export class GameInput {
   private held=new Set<string>();

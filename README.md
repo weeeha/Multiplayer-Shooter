@@ -30,13 +30,13 @@ Open the local address printed by Vite, then choose **Enter the field**. Desktop
 - 100 health and 50 armor. Armor absorbs damage first; overflow reduces health. Neither regenerates in this slice.
 - Five hostiles: a pistol robot, an AR scavenger, a shotgun scavenger, a fast rabid dog and a slower zombie.
 - Enemy sight/noise response, ranged attack warning, melee cooldowns, damage, death and local restart.
-- Original geometric placeholder art, simple weapon sounds, visible crosshair, health/armor and weapon HUD.
+- Cold Relay artwork: generated directional character sprites, textured buildings and street, wrecked cars, muzzle flashes, casings, smoke, sparks and impact debris. Simple weapon sounds, crosshair, health/armor and weapon HUD.
 
 The map opens to the east. The AR scavenger patrols the northeast; the dog, zombie and shotgun scavenger occupy the southeast. Keep moving, watch sightlines, and use cover while reloading.
 
 ## Current limits
 
-This is a **local combat test**. Online play, 16-player capacity, inventory, loot loss, extraction, healing, armor replacement and persistence are not implemented. Restart resets this test; it is not the eventual respawn/loot-loss experiment. Enemy movement uses direct steering, not navigation around complex obstacles. Balance and artwork are provisional.
+This is a **local combat test**. Online play, 16-player capacity, inventory, loot loss, extraction, healing, armor replacement and persistence are not implemented. Restart resets this test; it is not the eventual respawn/loot-loss experiment. Enemy movement uses direct steering, not navigation around complex obstacles. Balance and artwork are provisional; directional poses and procedural movement are implemented, with full animation cycles still to come.
 
 ## Verification
 
@@ -47,10 +47,12 @@ npx playwright install chromium
 # Keep npm run dev running for browser checks:
 node tests/browser/verify.mjs
 node tests/browser/arsenal.mjs
+node tests/browser/cold-relay.mjs
 ```
 
 The build includes type checking. Browser scripts exercise actual controls and save screenshots/state under ignored `output/` folders. `?test=1` enables deterministic stepping and visible-state inspection; normal play omits those hooks.
 
+- [Cold Relay art, assets and implementation notes](docs/art/cold-relay.md)
 - [Verification notes](docs/playtests/first-slice-verification.md)
 - [Game design and milestones](docs/superpowers/specs/2026-09-10-browser-pvpve-prototype-design.md)
 - [First playable implementation plan](docs/superpowers/plans/2026-09-10-first-playable-slice.md)

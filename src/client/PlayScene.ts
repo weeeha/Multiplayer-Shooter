@@ -4,6 +4,7 @@ import {GameInput} from './input';
 import {WorldView} from './WorldView';
 import {Hud} from './Hud';
 import {installTestHooks} from './testHooks';
+import {preloadArt,prepareArt} from './Sprites';
 import {FieldSound} from './Sound';
 
 export class PlayScene extends Phaser.Scene {
@@ -15,7 +16,9 @@ export class PlayScene extends Phaser.Scene {
   private testMode=new URLSearchParams(location.search).get('test')==='1';
   private focused=true;
   constructor(){super('field');}
+  preload():void {preloadArt(this);}
   create():void {
+    prepareArt(this);
     this.cameras.main.setBounds(0,0,1600,1280);
     this.view=new WorldView(this,this.session.world);
     this.controls=new GameInput(this);
@@ -34,7 +37,7 @@ export class PlayScene extends Phaser.Scene {
     const removeHooks=this.testMode?installTestHooks(this.session,ms=>{
       if(!this.hud.settings)this.advance(ms);
       this.present(1/60);
-    }):()=>{};
+    },()=>this.view.visualState()):()=>{};
     this.events.once('shutdown',()=>{
       removeHooks();this.controls.destroy();this.hud.destroy();this.soundFx.destroy();
       window.removeEventListener('blur',onBlur);window.removeEventListener('focus',onFocus);document.removeEventListener('visibilitychange',visibility);this.game.canvas.removeEventListener('pointerdown',click);

@@ -12,10 +12,10 @@ export class Hud {
   debug=false;
   constructor(private session:LocalSession,private start:()=>void,private clear:()=>void,private fullscreen:()=>void) {
     this.root.innerHTML=`
-      <div class="brand"><span class="brand-mark">╱╱</span><div>EXCLUSION<span>COMBAT FIELD TEST · 01</span></div></div>
+      <div class="brand"><span class="brand-mark">╱╱</span><div>EXCLUSION<span>COLD RELAY · FIELD TEST 01</span></div></div>
       <div class="local-badge"><i></i> LOCAL PROTOTYPE</div>
       <section class="entry panel">
-        <div class="eyebrow">ABANDONED RELAY STATION</div>
+        <div class="eyebrow">COLD RELAY / ABANDONED STATION</div>
         <h1>Watch<br>your corners<span>.</span></h1>
         <p>Three shooters. A rabid dog. A zombie.<br>Pick your weapon. Use cover. Stay alive.</p>
         <button id="start-btn" class="primary">ENTER THE FIELD <span>↗</span></button>

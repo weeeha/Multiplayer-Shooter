@@ -26,7 +26,7 @@ const shot=async(name)=>{
 const aim=async(x,y)=>{
   const s=await state(),box=await page.locator('canvas').boundingBox();
   const sx=Math.max(0,Math.min(640,s.player.x-480)),sy=Math.max(0,Math.min(740,s.player.y-270));
-  await page.mouse.move(box.x+(x-sx)*box.width/960,box.y+(y-15-sy)*box.height/540);
+  await page.mouse.move(box.x+(x-sx)*box.width/960,box.y+(y-24-sy)*box.height/540);
 };
 const restart=async()=>{
   await page.reload();await page.locator('#start-btn').click();await advance(34);

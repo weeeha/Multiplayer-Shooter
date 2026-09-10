@@ -22,3 +22,12 @@ Plan: docs/superpowers/plans/2026-09-10-first-playable-slice.md
 Next major work: authoritative online server and real 16-player tests, then loot/respawn experiments. Current limitations: local only, placeholder art, direct enemy steering, no inventory/extraction/armor replenishment. Do not claim multiplayer or GPU performance validation from these local tests.
 
 - Final verification: 37 unit tests, TypeScript check, production build, standard web-game runner and both supplemental browser suites passed. Inspected weapon/crosshair, dog, zombie, both scavengers, resized HUD and final movement screenshots. Browser error lists are empty; build size and screenshot-only GPU warnings are documented. Local preview remains available at http://127.0.0.1:5173/.
+
+## Cold Relay art pass — 2026-09-10
+
+- User selected concept B, then explicitly approved applying it. Used the existing branch and unchanged collision/combat balance.
+- Built-in image generation produced character, prop and material atlases. Initial character/prop transparency was a baked checkerboard; generated flat-magenta corrections and used runtime color-key atlas loading. Source PNGs are unchanged in public/art/cold-relay; prompts/provenance are in docs/art/cold-relay.md.
+- Added three poses per character plus mirroring, prefiltered to native gameplay size, with separate mouse-aimed guns. Shared visualAimHeight=24 aligns torso, gun and projectiles. Full walking/attack/death animations remain future work.
+- Replaced ground, pavement, roof and floor materials; added generated wrecked cars, roof vents and low decorative verge dressing. Visual detail was reduced after screenshot inspection to protect readability.
+- Added cosmetic shot/impact/death events, casings, smoke/dust, material-specific debris/sparks, impact marks and recoil. Effects use true collision locations and visibility gating, with bounded event/particle history and restart clearing.
+- New red/green checks cover event creation, wall impact position, robot destruction, event expiry and torso aiming. Final verification passed: 40 unit tests, TypeScript/production build, all three browser suites and the standard web-game runner. Inspected street, muzzle/door impacts, robot sparks, all enemy designs and HUD screenshots. Existing preview shows the Cold Relay entry screen.

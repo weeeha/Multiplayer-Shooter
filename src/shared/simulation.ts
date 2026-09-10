@@ -18,7 +18,7 @@ export function createWorld():World {
     {actor:make('dog','dog',{x:940,y:1060},'none'),brain:brain(),patrol:[{x:940,y:1060},{x:1040,y:1060}]},
     {actor:make('zombie','zombie',{x:1400,y:730},'none'),brain:brain(),patrol:[{x:1400,y:730},{x:1400,y:850}]},
   ];
-  return {time:0,map,player:make('player','player',map.playerSpawn),robot:enemies[0].actor,brain:enemies[0].brain,enemies,
+  return {events:[],nextEventId:0,time:0,map,player:make('player','player',map.playerSpawn),robot:enemies[0].actor,brain:enemies[0].brain,enemies,
     projectiles:[],noises:[],nextProjectileId:0,dashEnabled:true};
 }
 export function stepWorld(w:World,input:InputFrame,dt:number):void {
@@ -32,4 +32,5 @@ export function stepWorld(w:World,input:InputFrame,dt:number):void {
   for(const e of w.enemies)if(e.actor.hp<=0)e.brain.mode='dead';
   w.noises=w.noises.filter(n=>(n.remaining-=dt)>0);
   w.time+=dt;
+  w.events=w.events.filter(e=>w.time-e.time<.8).slice(-256);
 }
