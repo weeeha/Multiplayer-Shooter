@@ -2,7 +2,7 @@
 
 Date: 2026-09-10
 
-Status: Working design for review. Phaser + TypeScript is selected. No game implementation or performance validation has taken place.
+Status: Working overall design. The first local combat slice is implemented in Phaser + TypeScript; online play and 16-player capacity remain unimplemented. See the README and playtest notes for current verification.
 
 ## Purpose
 
@@ -16,7 +16,7 @@ This document records the gameplay direction and orders the work. It is not a co
 - 16+ players in a shared PvPvE map; do not reduce the product target to a small co-op game.
 - Players enter with a cheap gun and search for loot.
 - PvP is possible, but players can avoid each other or cooperate.
-- Environmental enemies: robots, mutated animals, and hostile scavengers.
+- Environmental enemies: robots, mutated animals, and hostile scavengers. The user subsequently requested a rabid dog and a zombie for the local test, plus pistol, AR and shotgun shooters.
 - Three-quarter top-down presentation with the gritty pixel-art atmosphere of the supplied images.
 - Line of sight, buildings, and cars matter to the environment.
 - Experiment with respawning and loot loss before selecting permanent death rules.

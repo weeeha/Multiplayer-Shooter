@@ -1,0 +1,21 @@
+export type Vec2 = { x: number; y: number };
+export type Rect = Vec2 & { w: number; h: number };
+export type Blocker = Rect & { id: string; movement: boolean; sight: boolean; shots: boolean };
+export type Door = Rect & { id: string; open: boolean };
+export type Building = Rect & { id: string; label: string };
+export type MapData = { bounds: Rect; blockers: Blocker[]; doors: Door[]; buildings: Building[]; playerSpawn: Vec2; robotPatrol: Vec2[] };
+export type WeaponId = 'pistol' | 'ar' | 'shotgun';
+export type InputFrame = { weaponPressed?: WeaponId; move: Vec2; aim: Vec2; fire: boolean; reloadPressed: boolean; interactPressed: boolean; dashPressed: boolean };
+export type Actor = {
+  id: string; kind: 'player' | 'robot' | 'scavenger' | 'dog' | 'zombie'; armor: number; maxHp: number; weapon: WeaponId | 'none'; loadout: Partial<Record<WeaponId,{ammo:number;reserve:number}>>; pos: Vec2; radius: number; hp: number; aim: Vec2;
+  ammo: number; reserve: number; reloadRemaining: number; shotCooldown: number;
+  dashRemaining: number; dashCooldown: number; dashDirection: Vec2;
+};
+export type Projectile = { id: number; ownerId: string; pos: Vec2; velocity: Vec2; damage: number; remaining: number };
+export type Noise = { pos: Vec2; remaining: number; sourceId: string };
+export type RobotBrain = { mode: 'patrol' | 'investigate' | 'telegraph' | 'burst' | 'chase' | 'dead'; remaining: number; waypoint: number; lastSeen: Vec2 | null; shotsRemaining: number };
+export type Enemy = {actor:Actor;brain:RobotBrain;patrol:Vec2[]};
+export type World = {
+  time: number; map: MapData; player: Actor; robot: Actor; brain: RobotBrain; enemies: Enemy[];
+  projectiles: Projectile[]; noises: Noise[]; nextProjectileId: number; dashEnabled: boolean;
+};

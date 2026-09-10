@@ -10,6 +10,12 @@
 
 **Spec:** [Browser PvPvE prototype design](../specs/2026-09-10-browser-pvpve-prototype-design.md).
 
+## Execution update — 2026-09-10
+
+The user authorized implementation with “Okay let's start”, then extended this slice with a crosshair, gun/ammo display, health/armor, pistol/AR/shotgun enemies, a rabid dog and a zombie. The implementation includes these additions and three selectable player weapons for testing. This supersedes the original one-enemy/one-weapon boundary below.
+
+All six implementation task groups have been built in `feat/first-playable-slice`. Changes were implemented inline and consolidated for verification rather than committed after every original checklist item. The original checklist below records the intended sequence; the README, `progress.md` and playtest notes record the executed result.
+
 ## Global Constraints
 
 The following requirements are copied from the working design:
