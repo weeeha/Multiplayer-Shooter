@@ -9,6 +9,7 @@ Players enter with a cheap gun, search a ruined environment for equipment and va
 Design stage. No playable implementation, multiplayer capacity, or performance results have been verified yet.
 
 - [Prototype design and milestone plan](docs/superpowers/specs/2026-09-10-browser-pvpve-prototype-design.md)
+- [First playable slice implementation plan](docs/superpowers/plans/2026-09-10-first-playable-slice.md)
 
 ## Chosen stack
 

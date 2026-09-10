@@ -180,4 +180,4 @@ Finished art, detailed animation, large enemy populations, procedural worlds, pe
 
 ## Next design checkpoint
 
-Review this working design before writing a detailed executable implementation plan. The first implementation plan should cover milestone 1 only, with the shared simulation boundary defined so milestone 2 can follow immediately.
+The [first playable slice implementation plan](../plans/2026-09-10-first-playable-slice.md) covers milestone 1 only, with the shared simulation boundary defined so milestone 2 can follow immediately. Read both documents before implementation. The mechanics marked as proposed above remain adjustable; preparing the plan does not establish final gameplay approval or measured feasibility.
