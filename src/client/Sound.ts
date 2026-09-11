@@ -13,7 +13,7 @@ export class FieldSound {
       this.master=c.createGain();this.master.gain.value=.48;
       const limiter=c.createDynamicsCompressor();limiter.threshold.value=-8;limiter.knee.value=6;limiter.ratio.value=12;limiter.attack.value=.002;limiter.release.value=.12;
       this.master.connect(limiter);limiter.connect(c.destination);
-      for(const gun of ['pistol','ar','shotgun','explosion'] as const)this.buffers.set(gun,Array.from({length:4},(_,i)=>{
+      for(const gun of ['pistol','ar','shotgun','explosion','flesh-hit','metal-hit'] as const)this.buffers.set(gun,Array.from({length:4},(_,i)=>{
         const samples=synthesizeShot(gun,c.sampleRate,9271+i*173),b=c.createBuffer(1,samples.length,c.sampleRate);b.copyToChannel(samples,0);return b;
       }));
     }

@@ -49,7 +49,7 @@ export function stepProjectiles(w:World,dt:number):void {
     }
     if(first!==Infinity) {
       const pos={x:p.pos.x+(end.x-p.pos.x)*first,y:p.pos.y+(end.y-p.pos.y)*first};
-      const event={time:w.time,pos,direction:{...p.velocity},actorId:victim?.id??p.ownerId,material};
+      const event={targetId:victim?.id,time:w.time,pos,direction:{...p.velocity},actorId:victim?.id??p.ownerId,material};
       w.events.push({...event,id:w.nextEventId++,kind:'impact'});
       if(victim){applyDamage(victim,p.damage);if(victim.hp<=0)w.events.push({...event,id:w.nextEventId++,kind:'death'});}
       return false;

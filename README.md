@@ -9,7 +9,7 @@ npm ci
 npm run dev
 ```
 
-Open the local address printed by Vite, then choose **Enter the field**. Desktop keyboard and mouse are required. The current working title is **Exclusion**.
+Open the local address printed by Vite, select a starting weapon, then choose **Enter the zone**. Desktop keyboard and mouse are required. The current working title is **Exclusion**.
 
 | Control | Action |
 | --- | --- |
@@ -34,6 +34,8 @@ Open the local address printed by Vite, then choose **Enter the field**. Desktop
 - Cold Relay artwork: generated directional character sprites, textured buildings and street, wrecked cars, muzzle flashes, casings, smoke, sparks and impact debris. Distinct layered gun sounds, stereo enemy fire, crosshair and a styled health/armor/ammo HUD.
 - Full armed poses and four-frame walking cycles for every actor, including each player weapon.
 - Three throwable grenades per run, visible arc/fuse, blast falloff, cover protection and self-damage.
+- Directional blood spray and ground stains on flesh hits, with distinct flesh and metal impact sounds. Armor and robots produce metal feedback.
+- Gritty survival interface: textured dark metal, muted amber, compact health/armor bars, ammunition and reload display, weapon slots, grenade count, and redesigned entry, field and death menus.
 
 The map opens to the east. The AR scavenger patrols the northeast; the dog, zombie and shotgun scavenger occupy the southeast. Keep moving, watch sightlines, and use cover while reloading.
 
@@ -54,11 +56,13 @@ node tests/browser/cold-relay.mjs
 node tests/browser/weapon-presentation.mjs
 node tests/browser/grenades.mjs
 node tests/browser/walking.mjs
+node tests/browser/survival-ui.mjs
 ```
 
 The build includes type checking. Browser scripts exercise actual controls and save screenshots/state under ignored `output/` folders. `?test=1` enables deterministic stepping and visible-state inspection; normal play omits those hooks.
 
 - [Combat presentation, sounds, grenades and walking assets](docs/art/combat-presentation.md)
+- [Survival interface and hit feedback](docs/art/survival-ui-and-hit-feedback.md)
 - [Cold Relay art, assets and implementation notes](docs/art/cold-relay.md)
 - [Verification notes](docs/playtests/first-slice-verification.md)
 - [Game design and milestones](docs/superpowers/specs/2026-09-10-browser-pvpve-prototype-design.md)

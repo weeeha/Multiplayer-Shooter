@@ -5,7 +5,7 @@ import {canSee} from '../shared/visibility';
 import {GRENADE} from '../shared/grenades';
 import {T} from '../shared/tuning';
 
-type Particle={origin?:Vec2;pos:Vec2;vx:number;vy:number;born:number;life:number;color:number;size:number;type:'spark'|'dust'|'case'|'chip'};
+type Particle={origin?:Vec2;pos:Vec2;vx:number;vy:number;born:number;life:number;color:number;size:number;type:'spark'|'dust'|'case'|'chip'|'blood'};
 export class CombatEffects {
   private particles:Particle[]=[];
   private scars:{pos:Vec2;size:number;color:number;born:number}[]=[];
@@ -13,6 +13,7 @@ export class CombatEffects {
   private previous=new Map<string,Vec2>();
   reset():void {this.particles=[];this.scars=[];this.lastId=-1;this.previous.clear();}
   get count():number{return this.particles.length;}
+  get bloodCount():number{return this.particles.filter(p=>p.type==='blood').length;}
   render(g:Phaser.GameObjects.Graphics,w:World):void {
     g.clear();const walls=getBlockers(w.map);
     const visible=(p:Vec2)=>{
@@ -30,6 +31,19 @@ export class CombatEffects {
         add({pos:{x,y:y-T.visualAimHeight},vx:Math.cos(angle+1.5)*55,vy:Math.sin(angle+1.5)*55-22,born:e.time,life:1.1,color:0xceb27a,size:2,type:'case'},e.pos);
         add({pos:{x:e.pos.x+Math.cos(angle)*30,y:e.pos.y-T.visualAimHeight+Math.sin(angle)*30},vx:Math.cos(angle)*18,vy:-18,born:e.time,life:.38,color:0xa3aaa7,size:3,type:'dust'},e.pos);
       }else{
+        if(e.material==='flesh'&&(e.kind==='impact'||e.kind==='death')){
+          const death=e.kind==='death',target=[w.player,...w.enemies.map(e=>e.actor)].find(a=>a.id===(e.targetId??e.actorId));
+          const height=target?.kind==='dog'?10:22;
+          for(let i=0;i<(death?22:12);i++){
+            const theta=angle+(rand(i)-.5)*1.7,speed=35+rand(i+20)*95;
+            add({pos:{x:e.pos.x,y:e.pos.y-height},vx:Math.cos(theta)*speed,vy:Math.sin(theta)*speed*.55-24,born:e.time,life:.28+rand(i+40)*.25,color:i%3===0?0xb64a37:0x762b27,size:1.5+rand(i+60)*2,type:'blood'},e.pos);
+          }
+          for(let i=0;i<(death?9:5);i++){
+            const theta=angle+(rand(i+80)-.5)*2.4,r=rand(i+100)*(death?23:15);
+            this.scars.push({pos:{x:e.pos.x+Math.cos(theta)*r,y:e.pos.y+Math.sin(theta)*r*.6},size:2+rand(i+120)*(death?6:3),color:i%2?0x612523:0x842e28,born:e.time});
+          }
+          continue;
+        }
         const metal=e.material==='metal',blast=e.kind==='explosion',death=e.kind==='death'||blast,count=blast?50:death?18:metal?7:5;
         for(let i=0;i<count;i++){
           const theta=rand(i)*Math.PI*2,speed=25+rand(i+40)*(death?110:75);
@@ -64,9 +78,10 @@ export class CombatEffects {
     for(const p of this.particles){
       if(p.origin&&!visible(p.origin))continue;
       const age=Math.max(0,w.time-p.born),fade=1-age/p.life;
-      const gravity=p.type==='case'?120:p.type==='chip'?90:0;
+      const gravity=p.type==='case'?120:p.type==='blood'?180:p.type==='chip'?90:0;
       const x=p.pos.x+p.vx*age,y=p.pos.y+p.vy*age+gravity*age*age;
-      if(p.type==='dust')g.fillStyle(p.color,fade*.2).fillCircle(x,y,p.size+age*12);
+      if(p.type==='blood')g.lineStyle(p.size,p.color,Math.min(1,fade*2)).lineBetween(x,y,x-p.vx*.025,y-p.vy*.025);
+      else if(p.type==='dust')g.fillStyle(p.color,fade*.2).fillCircle(x,y,p.size+age*12);
       else if(p.type==='spark')g.lineStyle(p.size,p.color,fade).lineBetween(x,y,x-p.vx*.035,y-p.vy*.035);
       else if(p.type==='case')g.lineStyle(1.5,p.color,fade).lineBetween(x,y,x+Math.cos(age*18)*3,y+Math.sin(age*18)*3);
       else g.fillStyle(p.color,fade*.8).fillRect(x,y,p.size,p.size);

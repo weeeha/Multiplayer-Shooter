@@ -3,6 +3,12 @@ import {ShotQueue,synthesizeShot} from '../../src/client/gunAudio';
 import {createWorld} from '../../src/shared/simulation';
 
 describe('gun audio',()=>{
+  it('plays organic and metal enemy hits, but skips surfaces and coalesces simultaneous pellets',()=>{
+    const w=createWorld(),q=new ShotQueue();
+    const hit={time:0,kind:'impact' as const,pos:{x:300,y:570},direction:{x:1,y:0},actorId:'enemy',material:'flesh' as const,targetId:'enemy'};
+    w.events=[{...hit,id:0},{...hit,id:1},{...hit,id:2,actorId:'robot',targetId:'robot',material:'metal'},{...hit,id:3,material:'metal',targetId:undefined}];
+    expect(q.take(w).map(s=>s.weapon)).toEqual(['flesh-hit','metal-hit']);expect(q.take(w)).toEqual([]);
+  });
   it('plays actual shot events once, including every enemy, without weapon-switch noise',()=>{
     const w=createWorld(),q=new ShotQueue();
     w.player.ammo=3;expect(q.take(w)).toEqual([]);
