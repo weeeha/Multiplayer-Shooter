@@ -4,6 +4,7 @@ import {T} from './tuning';
 
 export function stepMovement(a:Actor,input:InputFrame,walls:Rect[],dashEnabled:boolean,dt:number):void {
   if(a.hp<=0) return;
+  a.aimTarget=input.aimTarget;
   if(Math.hypot(input.aim.x,input.aim.y)>1e-9) a.aim=normalized(input.aim);
   const length=Math.hypot(input.move.x,input.move.y);
   const dir=length>1 ? normalized(input.move) : input.move;

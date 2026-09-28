@@ -9,8 +9,11 @@ function material(scene:Phaser.Scene,c:CanvasRenderingContext2D,index:number,x:n
   for(let yy=y;yy<y+h;yy+=size)for(let xx=x;xx<x+w;xx+=size)c.drawImage(source,sx,sy,half,half,xx,yy,size,size);
   c.restore();
 }
-function prop(scene:Phaser.Scene,c:CanvasRenderingContext2D,frame:string,x:number,y:number,w:number,h:number):void {
-  const f=spriteSource(scene,'props',frame);c.save();c.filter='saturate(.6)';c.drawImage(f.image,f.x,f.y,f.w,f.h,x,y,w,h);c.restore();
+function prop(scene:Phaser.Scene,c:CanvasRenderingContext2D,frame:string,x:number,y:number,w:number,h:number,mirror=false):void {
+  const f=spriteSource(scene,'props',frame);c.save();c.filter='saturate(.6)';
+  if(mirror){c.translate(x+w,y);c.scale(-1,1);c.drawImage(f.image,f.x,f.y,f.w,f.h,0,0,w,h);}
+  else c.drawImage(f.image,f.x,f.y,f.w,f.h,x,y,w,h);
+  c.restore();
 }
 export function roofTexture(scene:Phaser.Scene,b:Building):string {
   const key=`roof-${b.id}`;if(scene.textures.exists(key))return key;
@@ -47,16 +50,28 @@ export function terrainTexture(scene:Phaser.Scene,map:MapData):string {
   c.globalAlpha=.7;c.fillStyle='#b9ad78';for(let x=100;x<1500;x+=100)c.fillRect(x,586,48,3);c.globalAlpha=1;
   c.strokeStyle='#a7ac9980';c.lineWidth=2;for(let x=155;x<1490;x+=260){c.beginPath();c.moveTo(x,500);c.lineTo(x,470);c.lineTo(x+64,470);c.lineTo(x+64,500);c.stroke();}
   // Low verge dressing is decorative; no solid props are invented on walkable routes.
-  for(let i=0;i<115;i++){
+  for(let i=0;i<160;i++){
     const x=random()*1570,y=i%2===0?395+random()*17:770+random()*25;
     if(x>475&&x<585)continue;
-    prop(scene,c,i%3===0?'2-0':'2-1',x,y,35+random()*45,14+random()*18);
+    prop(scene,c,i%4===0?'2-0':'2-1',x,y,34+random()*48,14+random()*20,random()>.5);
   }
-  for(let i=0;i<85;i++){
+  for(let i=0;i<125;i++){
     const x=random()*1560,y=random()*1240;
     if(x>60&&x<1510&&y>380&&y<820)continue;
     if(map.buildings.some(b=>x>b.x-15&&x<b.x+b.w&&y>b.y-15&&y<b.y+b.h))continue;
-    prop(scene,c,'2-1',x,y,40+random()*34,17+random()*13);
+    prop(scene,c,i%7===0?'2-0':'2-1',x,y,40+random()*38,17+random()*15,random()>.5);
+  }
+  // Larger hand-placed thickets break up the empty field and read as bushes at gameplay scale.
+  const thickets:[number,number,number,boolean][]=[
+    [88,76,1.05,true],[185,262,.9,false],[795,92,1.1,false],[965,300,.92,true],[1190,110,1.08,false],[1430,286,.92,true],
+    [92,916,.95,false],[188,1130,1.08,true],[790,942,1.1,true],[986,1150,.9,false],[1210,902,1.05,false],[1432,1102,1,true],
+    [272,198,.78,false],[754,318,.82,true],[272,866,.8,true],[752,1000,.78,false]
+  ];
+  for(const [x,y,scale,rubble] of thickets){
+    if(rubble)prop(scene,c,'2-0',x+12*scale,y-4*scale,52*scale,24*scale);
+    prop(scene,c,'2-1',x,y,82*scale,34*scale);
+    prop(scene,c,'2-1',x-26*scale,y+14*scale,54*scale,22*scale,true);
+    prop(scene,c,'2-1',x+58*scale,y+13*scale,48*scale,20*scale);
   }
   // Drains and maintenance paint are flat ground marks.
   for(const [x,y] of [[470,702],[970,483],[1260,702]]){
@@ -87,7 +102,11 @@ export function terrainTexture(scene:Phaser.Scene,map:MapData):string {
     }
   }
   // Wall-mounted electrical boxes occupy existing wall strips.
-  for(const b of map.buildings)prop(scene,c,'1-0',b.x+104,b.y-18,25,36);
+  for(const b of map.buildings){
+    prop(scene,c,'1-0',b.x+104,b.y-18,25,36);
+    prop(scene,c,'1-0',b.x+b.w-139,b.y-17,23,34,true);
+    prop(scene,c,'2-0',b.x-38,b.y+b.h-62,48,24,b.id==='north');
+  }
   c.fillStyle='#ad714d';c.font='bold 11px monospace';c.fillText('RELAY ACCESS  →',130,405);
   c.fillStyle='#94a0a0';c.font='10px monospace';c.fillText('SERVICE ROAD / 04',980,725);
   texture.refresh();return key;

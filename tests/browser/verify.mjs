@@ -2,11 +2,13 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
+import {captureAudio,waitForAudio} from './audio-capture.mjs';
 
 const output='output/browser-verification';
 await mkdir(output,{recursive:true});
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1280,height:720}});
+await captureAudio(page);
 const errors=[];
 const captureWarnings=[];
 page.on('pageerror',e=>errors.push(String(e)));
@@ -35,6 +37,7 @@ const report={browser:browser.version(),checks:[]};
 try {
   await page.goto('http://127.0.0.1:5173/?test=1');
   await page.locator('#start-btn').click();await advance(34);
+  await waitForAudio(page);
   let s=await state();assert.equal(s.player.hp,100);assert.equal(s.visibleRobot,null);
   await shot('01-start');report.checks.push('Start, hidden robot, full health and ammunition');
 
@@ -83,10 +86,13 @@ try {
   await page.mouse.up();s=await state();assert.equal(s.visibleRobot?.hp,0,'aimed pistol fire disables robot');
   await shot('06-patrol-disabled');report.checks.push('Approach, robot telegraph, aimed combat and robot death');
 
-  await restart();await key('KeyW',300);await key('KeyD',3700);await advance(9000);
+  await restart();await key('KeyW',300);await key('KeyD',3700);
+  const playerDeathsBefore=(await page.evaluate(()=>window.audioEvents.filter(e=>e.file?.includes('/scavenger-death-')).length));
+  await advance(9000);
   assert.equal((await state()).mode,'dead');await shot('07-death');
+  assert.equal(await page.evaluate(()=>window.audioEvents.filter(e=>e.file?.includes('/scavenger-death-')).length),playerDeathsBefore+1,'player death plays one human voice');
   await page.locator('#retry-btn').click();s=await state();assert.equal(s.player.hp,100);assert.equal(s.player.ammo,12);assert.equal(s.time,0);
-  report.checks.push('Robot can kill player; restart restores full local state');
+  report.checks.push('Robot can kill player, human death cue plays once, and restart restores full local state');
 
   await page.goto('http://127.0.0.1:5173/');await page.locator('#start-btn').waitFor();
   assert.equal(await page.evaluate(()=>typeof window.render_game_to_text),'undefined');

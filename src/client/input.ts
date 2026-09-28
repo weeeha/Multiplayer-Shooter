@@ -1,5 +1,5 @@
 import type Phaser from 'phaser';
-import type {InputFrame,Vec2} from '../shared/model';
+import type {InputFrame,Vec2,Actor} from '../shared/model';
 import {T} from '../shared/tuning';
 import {normalized} from '../shared/geometry';
 export function aimAtPointer(pos:Vec2,pointerWorld:Vec2):Vec2 {
@@ -27,14 +27,14 @@ export class GameInput {
     window.addEventListener('blur',()=>this.clear(),options);
   }
   clear():void {this.held.clear();this.edges.clear();this.firing=false;}
-  read(pos:Vec2,previousAim:Vec2):InputFrame {
+  read(actor:Actor):InputFrame {
     const canvas=this.scene.game.canvas.getBoundingClientRect();
     const camera=this.scene.cameras.main;
     const target=camera.getWorldPoint((this.pointer.x-canvas.left)*960/canvas.width,(this.pointer.y-canvas.top)*540/canvas.height);
-    const aim=this.movedPointer?aimAtPointer(pos,target):previousAim;
+    const aim=this.movedPointer?aimAtPointer(actor.pos,target):actor.aim;
     const has=(...codes:string[])=>codes.some(c=>this.held.has(c))?1:0;
-    const frame:InputFrame={grenadePressed:this.edges.has('KeyG'),grenadeTarget:this.movedPointer?{x:target.x,y:target.y}:undefined,move:{x:has('KeyD','ArrowRight')-has('KeyA','ArrowLeft'),y:has('KeyS','ArrowDown')-has('KeyW','ArrowUp')},aim,fire:this.firing,
-      reloadPressed:this.edges.has('KeyR'),interactPressed:this.edges.has('KeyE'),dashPressed:this.edges.has('Space'),weaponPressed:this.edges.has('Digit1')?'pistol':this.edges.has('Digit2')?'ar':this.edges.has('Digit3')?'shotgun':undefined};
+    const frame:InputFrame={aimTarget:this.movedPointer?{x:target.x,y:target.y+T.visualAimHeight}:undefined,grenadePressed:this.edges.has('KeyG'),grenadeTarget:this.movedPointer?{x:target.x,y:target.y}:undefined,move:{x:has('KeyD','ArrowRight')-has('KeyA','ArrowLeft'),y:has('KeyS','ArrowDown')-has('KeyW','ArrowUp')},aim,fire:this.firing,
+      reloadPressed:this.edges.has('KeyR'),interactPressed:this.edges.has('KeyE'),dashPressed:this.edges.has('Space'),weaponPressed:this.edges.has('Digit1')?'pistol':this.edges.has('Digit2')?'ar':this.edges.has('Digit3')?'shotgun':this.edges.has('Digit4')?'railgun':undefined};
     this.edges.clear();return frame;
   }
   destroy():void {this.abort.abort();}

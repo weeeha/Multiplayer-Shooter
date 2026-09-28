@@ -6,6 +6,7 @@ import {Hud} from './Hud';
 import {installTestHooks} from './testHooks';
 import {preloadArt,prepareArt} from './Sprites';
 import {FieldSound} from './Sound';
+import {updateStartup,failStartup,finishStartup} from './startup';
 
 export class PlayScene extends Phaser.Scene {
   private session=new LocalSession();
@@ -15,9 +16,19 @@ export class PlayScene extends Phaser.Scene {
   private soundFx=new FieldSound();
   private testMode=new URLSearchParams(location.search).get('test')==='1';
   private focused=true;
+  private assetsFailed=false;
   constructor(){super('field');}
-  preload():void {preloadArt(this);}
+  preload():void {
+    updateStartup(0);
+    this.load.on('progress',updateStartup);
+    this.load.on('loaderror',()=>{
+      this.assetsFailed=true;
+      failStartup('Some artwork could not be downloaded. Reload to try again.');
+    });
+    preloadArt(this);
+  }
   create():void {
+    if(this.assetsFailed)return;
     prepareArt(this);
     this.cameras.main.setBounds(0,0,1600,1280);
     this.view=new WorldView(this,this.session.world);
@@ -27,7 +38,7 @@ export class PlayScene extends Phaser.Scene {
     },()=>{this.controls.clear();this.session.clearEdges();},()=>{
       const element=document.querySelector<HTMLElement>('#app')!;
       if(document.fullscreenElement)void document.exitFullscreen();else void element.requestFullscreen();
-    });
+    },{volume:this.soundFx.musicVolume,setVolume:value=>this.soundFx.setMusicVolume(value)});
     const onBlur=()=>{this.focused=false;this.controls.clear();this.session.clearEdges();};
     const onFocus=()=>{this.focused=true;this.controls.clear();};
     window.addEventListener('blur',onBlur);window.addEventListener('focus',onFocus);
@@ -37,22 +48,24 @@ export class PlayScene extends Phaser.Scene {
     const removeHooks=this.testMode?installTestHooks(this.session,ms=>{
       if(!this.hud.settings)this.advance(ms);
       this.present(1/60);
-    },()=>this.view.visualState()):()=>{};
+    },()=>({...this.view.visualState(),audio:this.soundFx.state()})):()=>{};
     this.events.once('shutdown',()=>{
       removeHooks();this.controls.destroy();this.hud.destroy();this.soundFx.destroy();
       window.removeEventListener('blur',onBlur);window.removeEventListener('focus',onFocus);document.removeEventListener('visibilitychange',visibility);this.game.canvas.removeEventListener('pointerdown',click);
     });
     this.present(1/60);
+    finishStartup();
   }
   private advance(ms:number):void {
     const p=this.session.world.player;
-    this.session.advance(ms,this.controls.read(p.pos,p.aim));this.soundFx.update(this.session.world);
+    this.session.advance(ms,this.controls.read(p));this.soundFx.update(this.session.world);
   }
   private present(dt:number):void {
     const p=this.session.world.player;
     this.cameras.main.centerOn(p.pos.x,p.pos.y);
     this.view.render(this.session.world,this.hud.debug,dt);
     this.hud.update(!this.focused);
+    this.soundFx.setMusicActive(this.session.mode!=='entry'&&this.focused&&!document.hidden);
   }
   update(_time:number,delta:number):void {
     if(!this.controls)return;

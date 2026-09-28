@@ -1,0 +1,540 @@
+[
+  {
+    "cue": "pistol",
+    "source": "firearms/Prepared SFX Library/Walther PPQ/X_39P.wav",
+    "start": 1.395,
+    "duration": 0.8,
+    "filters": "",
+    "file": "pistol-0.wav",
+    "sourceSha256": "d679a3cd87eae2898d984159f83544392932e6b77526045b672e3aaa9c2dda9f",
+    "sha256": "bed6094efb391b61f51bece838e8878bbbf637b1f7506ba304e4c03aa69d9b6f"
+  },
+  {
+    "cue": "pistol",
+    "source": "firearms/Prepared SFX Library/Walther PPQ/X_39P.wav",
+    "start": 6.43,
+    "duration": 0.8,
+    "filters": "",
+    "file": "pistol-1.wav",
+    "sourceSha256": "d679a3cd87eae2898d984159f83544392932e6b77526045b672e3aaa9c2dda9f",
+    "sha256": "64904dd25bed71d3280601981390e15e89b435c873bae239cbcbf19680ea228e"
+  },
+  {
+    "cue": "pistol",
+    "source": "firearms/Prepared SFX Library/Walther PPQ/X_39P.wav",
+    "start": 10.65,
+    "duration": 0.8,
+    "filters": "",
+    "file": "pistol-2.wav",
+    "sourceSha256": "d679a3cd87eae2898d984159f83544392932e6b77526045b672e3aaa9c2dda9f",
+    "sha256": "318f5a3156f865ed7d74c31086640d71e8142253001a02ff0c6dba6c596ca8d0"
+  },
+  {
+    "cue": "ar",
+    "source": "firearms/Prepared SFX Library/AR-15/D_32P.wav",
+    "start": 0.69,
+    "duration": 0.7,
+    "filters": "",
+    "file": "ar-0.wav",
+    "sourceSha256": "acee9d2106b68fe5956225a19d7aedf943d97793817f9bda9d486a2b74b0a812",
+    "sha256": "141cf373d5bea328b86cd76304c1c3aa828a6b736bb4d9e705637eec27689290"
+  },
+  {
+    "cue": "ar",
+    "source": "firearms/Prepared SFX Library/AR-15/D_32P.wav",
+    "start": 5.635,
+    "duration": 0.7,
+    "filters": "",
+    "file": "ar-1.wav",
+    "sourceSha256": "acee9d2106b68fe5956225a19d7aedf943d97793817f9bda9d486a2b74b0a812",
+    "sha256": "982bdc84375cc04aa3415e295c9e476bf5c93413460c25b5895f26eb34a5f4c8"
+  },
+  {
+    "cue": "shotgun",
+    "source": "firearms/Prepared SFX Library/Mossberg/N_30P.wav",
+    "start": 1.685,
+    "duration": 1.1,
+    "filters": "",
+    "file": "shotgun-0.wav",
+    "sourceSha256": "b5a28243e16f8cb10adfc5225d96e90f108d24393fcfffcaa6dcf203af03634a",
+    "sha256": "3def1456e5cc571c170cb126f5a90b26386cce6cf84f449bb4091bcf85d46af5"
+  },
+  {
+    "cue": "shotgun",
+    "source": "firearms/Prepared SFX Library/Mossberg/N_30P.wav",
+    "start": 4.95,
+    "duration": 1.1,
+    "filters": "",
+    "file": "shotgun-1.wav",
+    "sourceSha256": "b5a28243e16f8cb10adfc5225d96e90f108d24393fcfffcaa6dcf203af03634a",
+    "sha256": "5cacfc02682ba5980631e218ef0758a65f21ffd34b32d48ab7d0d661b1e2e618"
+  },
+  {
+    "cue": "dog-bite",
+    "source": "snarls/dog/dog-snarl.flac",
+    "start": 0,
+    "duration": 0.42,
+    "filters": "",
+    "file": "dog-bite-0.wav",
+    "sourceSha256": "086614716a3d402c906079ea3ff1820a993a3fb7f6913653f50f1665eb444cab",
+    "sha256": "7b102aedb213c029e17a344eacc313b5946c08593f5ba3f9bb5a0f2a98e0bf15"
+  },
+  {
+    "cue": "dog-bite",
+    "source": "snarls/dog/dog-growl.flac",
+    "start": 0,
+    "duration": 0.42,
+    "filters": "",
+    "file": "dog-bite-1.wav",
+    "sourceSha256": "84a4ecc14152ad1523e62800223def75b92fe7b16c6b78943b8bd236ab82cd29",
+    "sha256": "a67cddeb9a2b4f937a26c055db6ce79cdf2b34e319fb0ec4f6b5c76e8a1a6c1b"
+  },
+  {
+    "cue": "dog-death",
+    "source": "dogs/Dog/Sad Dog 1.wav",
+    "start": 0.94,
+    "duration": 0.72,
+    "filters": "afftdn=nf=-25",
+    "file": "dog-death-0.wav",
+    "sourceSha256": "6a7d8d6664b10e265180d68bfe28253e27c118fdfc0d8e2a1d401a932f9ef498",
+    "sha256": "81295c0b6698bd21f39d9e268e0fe24dcfd8b58f72e1779b423e46ec560ff327"
+  },
+  {
+    "cue": "dog-death",
+    "source": "dogs/Dog/Sad Dog 1.wav",
+    "start": 1.79,
+    "duration": 0.94,
+    "filters": "afftdn=nf=-25",
+    "file": "dog-death-1.wav",
+    "sourceSha256": "6a7d8d6664b10e265180d68bfe28253e27c118fdfc0d8e2a1d401a932f9ef498",
+    "sha256": "c6b7c8072e8d309eaaa2ef9cb1cec512b382d19537775d1580bbf92674da834c"
+  },
+  {
+    "cue": "zombie-death",
+    "source": "zombie.ogg",
+    "start": 0.2,
+    "duration": 2.85,
+    "filters": "",
+    "file": "zombie-death-0.wav",
+    "sourceSha256": "49b0bd7a7908f2b3ea61ae93ccf584ab650705d62e8ed6d4c8c9f5b98ad37b05",
+    "sha256": "01cb46dcb9e9f35fe057153c494940e5e079aacfdfd01f420b3b20d71140e4b8"
+  },
+  {
+    "cue": "zombie-death",
+    "source": "zombie.ogg",
+    "start": 3.63,
+    "duration": 2.75,
+    "filters": "",
+    "file": "zombie-death-1.wav",
+    "sourceSha256": "49b0bd7a7908f2b3ea61ae93ccf584ab650705d62e8ed6d4c8c9f5b98ad37b05",
+    "sha256": "ba0c169d105e6f638fc2090ac774ea46e7067cb1b48d20f6685fa618919a28b4"
+  },
+  {
+    "cue": "zombie-death",
+    "source": "zombie.ogg",
+    "start": 6.6,
+    "duration": 2.4,
+    "filters": "",
+    "file": "zombie-death-2.wav",
+    "sourceSha256": "49b0bd7a7908f2b3ea61ae93ccf584ab650705d62e8ed6d4c8c9f5b98ad37b05",
+    "sha256": "5902e333e3a7a1dc2ba82b3598a8debf7953923258d50b140cfe44842cf99947"
+  },
+  {
+    "cue": "scavenger-death",
+    "source": "human.wav",
+    "start": 0.48,
+    "duration": 1.48,
+    "filters": "",
+    "file": "scavenger-death-0.wav",
+    "sourceSha256": "3f00fba827f20ff9ccea1bc07d2c21ab8d3a36e81b48a6005cf8459f02779586",
+    "sha256": "eaa348a81ca3c02cbafbaa15807059bfcaca1c5b52fbcc5fa869efe25aaeee19"
+  },
+  {
+    "cue": "scavenger-death",
+    "source": "human.wav",
+    "start": 17.42,
+    "duration": 1.25,
+    "filters": "",
+    "file": "scavenger-death-1.wav",
+    "sourceSha256": "3f00fba827f20ff9ccea1bc07d2c21ab8d3a36e81b48a6005cf8459f02779586",
+    "sha256": "b4b5433daa9cb152eef180dd9182873b57c1b39eadc342d9a44ef96809bbf410"
+  },
+  {
+    "cue": "scavenger-death",
+    "source": "human.wav",
+    "start": 33.52,
+    "duration": 1.4,
+    "filters": "",
+    "file": "scavenger-death-2.wav",
+    "sourceSha256": "3f00fba827f20ff9ccea1bc07d2c21ab8d3a36e81b48a6005cf8459f02779586",
+    "sha256": "54de5ed9bc05ee6d69519e41314690457855a643cccd9b95a4fa3ec4f9957345"
+  },
+  {
+    "cue": "explosion",
+    "source": "explosion.mp3",
+    "start": 0,
+    "duration": 2.7,
+    "filters": "",
+    "file": "explosion-0.wav",
+    "sourceSha256": "4de53bffac187e59d3f5b43096df2f8fcb4160076b65b71a67074947950e025f",
+    "sha256": "ffadaf724e7527e2fc498989a46dec10cdbe008fd413e9bee4f6d233f6b1f318"
+  },
+  {
+    "cue": "reload-pistol",
+    "source": "pistol-reload.wav",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "reload-pistol-0.wav",
+    "sourceSha256": "685cac6a184e3cc3ec09a25b6ddb1d6feffd86d469778f339aa423d384035c50",
+    "sha256": "9245868de84d0a06992b662b35472ef01c8a934ddb39ce25cd88f00e7586942c"
+  },
+  {
+    "cue": "reload-ar",
+    "source": "ar-reload.wav",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "reload-ar-0.wav",
+    "sourceSha256": "efb2d724d634eabe6ba8d3065686abca848bb7497d4d43a5e4aed5e5ea23016f",
+    "sha256": "31b740e247434963504731224aaa7009952539598f3f41bc90f546c7d52b894a"
+  },
+  {
+    "cue": "reload-shotgun",
+    "source": "shotgun-reload.wav",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "reload-shotgun-0.wav",
+    "sourceSha256": "33e007321ba83301c861aef573f2c40b70bc62f8f24c0164877e6dd123e24371",
+    "sha256": "7c538f8f246c2ecbe660235b2ef70f3021ed3a3a25b10765c23e545be7fa313e"
+  },
+  {
+    "cue": "equip",
+    "source": "pistol-reload.wav",
+    "start": 0.15,
+    "duration": 0.24,
+    "filters": "",
+    "file": "equip-0.wav",
+    "sourceSha256": "685cac6a184e3cc3ec09a25b6ddb1d6feffd86d469778f339aa423d384035c50",
+    "sha256": "7e401c92d9cec1c75b02523763a175f25f6398aab5f69fee99d814e80512943f"
+  },
+  {
+    "cue": "grenade-throw",
+    "source": "shotgun-reload.wav",
+    "start": 0,
+    "duration": 0.32,
+    "filters": "",
+    "file": "grenade-throw-0.wav",
+    "sourceSha256": "33e007321ba83301c861aef573f2c40b70bc62f8f24c0164877e6dd123e24371",
+    "sha256": "9826fe31655a459762543d16c975f104618910c38924ab93f2d13eae1f00b46f"
+  },
+  {
+    "cue": "flesh-hit",
+    "source": "impact/Audio/impactSoft_heavy_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "flesh-hit-0.wav",
+    "sourceSha256": "49e7ca88743fca974bb8676ea138b751cfd8f9033b5e7af8736c2a215d6edbc1",
+    "sha256": "669b41914433a0cc8479210fee20c90e0189038d18cefb000baa3c5f9f3832ed"
+  },
+  {
+    "cue": "metal-hit",
+    "source": "impact/Audio/impactMetal_light_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "metal-hit-0.wav",
+    "sourceSha256": "33b5e6e37c6e9d54e07bf5a89b12c76e879f40c1ea83cdd82714df1d6f9fec6d",
+    "sha256": "a20a30dc1344a5547143f6182be2ec5427d128f6a1e84432c7bf5d7d89178876"
+  },
+  {
+    "cue": "surface-hit",
+    "source": "impact/Audio/impactGeneric_light_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "surface-hit-0.wav",
+    "sourceSha256": "f0e982611e97512fee5f777986b67e8b435434b601f94992ec044f7e89fb5acb",
+    "sha256": "f4d8a70abc68e242bcda63ed52c103fc11725e37f82c3d1cd25d2a0b6d14b43a"
+  },
+  {
+    "cue": "step-concrete",
+    "source": "impact/Audio/footstep_concrete_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-concrete-0.wav",
+    "sourceSha256": "d7267e183067757c92c169de2a379abea592cfca6b39bb2e8feea15221ad79fe",
+    "sha256": "380ea1bb003aefb277f1f3fb6cba1be2638ea3a2be857f1e6fa54fd716e08a3c"
+  },
+  {
+    "cue": "step-grass",
+    "source": "impact/Audio/footstep_grass_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-grass-0.wav",
+    "sourceSha256": "9d49497777405d78d7cf7f2888e28277f3a23192300cfd1d79d54876b20f479f",
+    "sha256": "6e3e316b60802cf8eef8e79135c63faa656535c5751e53438151e074c1f97eee"
+  },
+  {
+    "cue": "step-metal",
+    "source": "impact/Audio/impactMetal_light_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-metal-0.wav",
+    "sourceSha256": "33b5e6e37c6e9d54e07bf5a89b12c76e879f40c1ea83cdd82714df1d6f9fec6d",
+    "sha256": "a20a30dc1344a5547143f6182be2ec5427d128f6a1e84432c7bf5d7d89178876"
+  },
+  {
+    "cue": "door",
+    "source": "impact/Audio/impactWood_medium_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "door-0.wav",
+    "sourceSha256": "1723a9fd25103ed41af06054814e84e65f4a772bac86ab2dc927da93d9592ff5",
+    "sha256": "e17d1dbd773a5d4e6dd4431ff621bb1f7ee9e7323903a5e90071dbbeb6be015a"
+  },
+  {
+    "cue": "robot-death",
+    "source": "impact/Audio/impactMetal_heavy_000.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "robot-death-0.wav",
+    "sourceSha256": "e07045693e4a2b3d165c424e3dab4c781d9ff8880a386880ac89a51315d7f831",
+    "sha256": "4f1ce4ae6b64ccd6a76c0e0ea7b9ec156c4acaf8f223b9df73efb1fe32b7ffc0"
+  },
+  {
+    "cue": "flesh-hit",
+    "source": "impact/Audio/impactSoft_heavy_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "flesh-hit-1.wav",
+    "sourceSha256": "4d0096364ba9e46119d2ff6df493fdc101bd2e1efae061da5e5f77a53b3fdcb6",
+    "sha256": "854b223ae7d467d0ad56da10b6df59d73cafae006e4720b5bab9162390114306"
+  },
+  {
+    "cue": "metal-hit",
+    "source": "impact/Audio/impactMetal_light_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "metal-hit-1.wav",
+    "sourceSha256": "fba69c467ddd85da7b1d82e259f936b876d9ba6a3d6f1b24bdd10468e46bfe08",
+    "sha256": "70b7ac1e77140cc67964ab00756b10b3ce62389142a510f960427589ac0720f7"
+  },
+  {
+    "cue": "surface-hit",
+    "source": "impact/Audio/impactGeneric_light_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "surface-hit-1.wav",
+    "sourceSha256": "c3cd1c073d186ae8fa35788ba94de581f1826e7427a7bb26490b2695fac18efa",
+    "sha256": "64fd2b53db65cd7abbe263793eda1d51c89686754dfed818aa9f8d14ba847baf"
+  },
+  {
+    "cue": "step-concrete",
+    "source": "impact/Audio/footstep_concrete_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-concrete-1.wav",
+    "sourceSha256": "507a75eb19b897087855a3be3cf11a12d7fa37d143ad535eeebe0b8031c7325d",
+    "sha256": "a284a12f196b865c6239499c06036da0e947abd6c02c8bbd2f3d7e9d657a0dd3"
+  },
+  {
+    "cue": "step-grass",
+    "source": "impact/Audio/footstep_grass_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-grass-1.wav",
+    "sourceSha256": "fb28781bd22b2eefdc14077f1adf5c94d7fe9c3a130194633b55f3e0d39d9f04",
+    "sha256": "3a3df914421d40b151c5e932b55876ed1818bfc8d5c55f9e9ca9e3e1f6bbbbb4"
+  },
+  {
+    "cue": "step-metal",
+    "source": "impact/Audio/impactMetal_light_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-metal-1.wav",
+    "sourceSha256": "fba69c467ddd85da7b1d82e259f936b876d9ba6a3d6f1b24bdd10468e46bfe08",
+    "sha256": "70b7ac1e77140cc67964ab00756b10b3ce62389142a510f960427589ac0720f7"
+  },
+  {
+    "cue": "door",
+    "source": "impact/Audio/impactWood_medium_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "door-1.wav",
+    "sourceSha256": "15271dbe8e2872dbb0ff1aeb7b12b2d2b92b7c1951c88532b9ab9158c36dfc73",
+    "sha256": "09006bb302e4d5865df5605b892da33a83724f9e000ca60ac0a45f2a62c058ce"
+  },
+  {
+    "cue": "robot-death",
+    "source": "impact/Audio/impactMetal_heavy_001.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "robot-death-1.wav",
+    "sourceSha256": "83554049f81f4db9209379e103c30bfa63f65c42189a03f300b045c2c82e23ae",
+    "sha256": "21e4ace75e86e464dcb8f8367f54cf019489dc1ef6d18f02a477f64bbbf18aa6"
+  },
+  {
+    "cue": "flesh-hit",
+    "source": "impact/Audio/impactSoft_heavy_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "flesh-hit-2.wav",
+    "sourceSha256": "d130ae541951243d3f6ed963d0057450a445ffe117fbf9a084d34eb1635cb563",
+    "sha256": "d3b47882fce4e8ff09267f7c1f7f74e3f248a33673a16e3b1ed5e0e166239ac6"
+  },
+  {
+    "cue": "metal-hit",
+    "source": "impact/Audio/impactMetal_light_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "metal-hit-2.wav",
+    "sourceSha256": "25a96f90a9a1f88a531e824e126f0519504625e5635e65a72e4f31611428db29",
+    "sha256": "31fb53185ec6d91acbefc1794923a0f428e2f1f647c4e08b2bc5e7e89b5b13dd"
+  },
+  {
+    "cue": "surface-hit",
+    "source": "impact/Audio/impactGeneric_light_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "surface-hit-2.wav",
+    "sourceSha256": "d0bf60905b59ff630ffe01eb0edeeacd2504eaa8fb6523aeef7d2458b78264d3",
+    "sha256": "d5232f9da5549875840d7ee34ddc68f2e7860bf015daaa9ecb7bb3d1226cd3e2"
+  },
+  {
+    "cue": "step-concrete",
+    "source": "impact/Audio/footstep_concrete_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-concrete-2.wav",
+    "sourceSha256": "b21fa546d74941196b25da8a20b7010abd8c05c4fcf93545d1f344e66a664e13",
+    "sha256": "819fbcb6bfcb17572607747c5b62f7adb56558084d60dcda2a3a4b689a64357b"
+  },
+  {
+    "cue": "step-grass",
+    "source": "impact/Audio/footstep_grass_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-grass-2.wav",
+    "sourceSha256": "73a520139f5be716a403bfe9c80e0e94d1e61d8e9de04a354b336392164b53dc",
+    "sha256": "3b54b33408938af39069e36e74e8ea7a6398315ce930ca4533586abdcb36b541"
+  },
+  {
+    "cue": "step-metal",
+    "source": "impact/Audio/impactMetal_light_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "step-metal-2.wav",
+    "sourceSha256": "25a96f90a9a1f88a531e824e126f0519504625e5635e65a72e4f31611428db29",
+    "sha256": "31fb53185ec6d91acbefc1794923a0f428e2f1f647c4e08b2bc5e7e89b5b13dd"
+  },
+  {
+    "cue": "door",
+    "source": "impact/Audio/impactWood_medium_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "door-2.wav",
+    "sourceSha256": "3f3f1917428b828f733a963167833c707bf88296ff158e1559c57c5cb813d799",
+    "sha256": "80202ef72b3f04c5652817bafc1597708d649c51c1e723e15eab969acbc8b507"
+  },
+  {
+    "cue": "robot-death",
+    "source": "impact/Audio/impactMetal_heavy_002.ogg",
+    "start": 0,
+    "duration": null,
+    "filters": "",
+    "file": "robot-death-2.wav",
+    "sourceSha256": "b914c8f1eb7c0f34bb165d7c77f4be0351f6be0660c13c53e65424e262e2c093",
+    "sha256": "723bfa4103b74c0e291f2bbc90edee47a4d829630b384a17ef926d25ac46de85"
+  },
+  {
+    "cue": "rail-charge",
+    "source": "Original deterministic synthesis",
+    "start": 0,
+    "duration": 1.16,
+    "filters": "rising dual oscillator, accelerating pulse and electrical crackle",
+    "file": "rail-charge-0.wav",
+    "sourceSha256": "ad04f4d93d0654944f0ef4ac8b66817fe3307471c9599108366469cd7d69341b",
+    "sha256": "2b1633ffc3e52e69b8bae89a9e5975f288a566fdba9fd66d17f0fd00348ace92"
+  },
+  {
+    "cue": "rail-charge",
+    "source": "Original deterministic synthesis",
+    "start": 0,
+    "duration": 1.16,
+    "filters": "rising dual oscillator, accelerating pulse and electrical crackle",
+    "file": "rail-charge-1.wav",
+    "sourceSha256": "b5514ee8b3226247579c25edb1d5565e124f24d7f04d4f2290a0bd0a085a251f",
+    "sha256": "2a1f7a6549640d07796b5ab1ae79c47f39dda1034ed6997ce371ca4f9cc24671"
+  },
+  {
+    "cue": "rail-player-shot",
+    "source": "firearms/Prepared SFX Library/AR-15/D_32P.wav",
+    "start": 0.69,
+    "duration": 1.1,
+    "profile": "player",
+    "variant": 0,
+    "file": "rail-player-shot-0.wav",
+    "sourceSha256": "acee9d2106b68fe5956225a19d7aedf943d97793817f9bda9d486a2b74b0a812",
+    "synthLayerSha256": "0820431a15579716954a9b8b1a3efc6cc25bc9c8691f069b83f37ffacfab268b",
+    "sha256": "9b3bdac558168aac5242396d768722971581ae2b22d99885700762a200194cc6"
+  },
+  {
+    "cue": "rail-player-shot",
+    "source": "firearms/Prepared SFX Library/AR-15/D_24P.wav",
+    "start": 0.69,
+    "duration": 1.1,
+    "profile": "player",
+    "variant": 1,
+    "file": "rail-player-shot-1.wav",
+    "sourceSha256": "4c6a54ca0583150bbb32b7f658bc64da9ad9ba42fd3aca769c6120b44af8d3f0",
+    "synthLayerSha256": "fc365d7b5e36bfa14faa7b621adb7c87f00c8ae4a15a13d0894d0681caf40d96",
+    "sha256": "f8e26e1889b4a7f16f8584e913ac9b1a6b1a30487fc9fb62efe0d1f813246a94"
+  },
+  {
+    "cue": "rail-spider-shot",
+    "source": "firearms/Prepared SFX Library/Mossberg/N_30P.wav",
+    "start": 1.685,
+    "duration": 1.25,
+    "profile": "spider",
+    "variant": 0,
+    "file": "rail-spider-shot-0.wav",
+    "sourceSha256": "b5a28243e16f8cb10adfc5225d96e90f108d24393fcfffcaa6dcf203af03634a",
+    "synthLayerSha256": "ecf47f43c7724e8fa3daac15c3c211bb88ea485012168f91d368bb80b2cda6c0",
+    "sha256": "58ff3703f282442b01681231ff19ed952795f695a72ce6a1ac03b2986e089003"
+  },
+  {
+    "cue": "rail-spider-shot",
+    "source": "firearms/Prepared SFX Library/Mossberg/N_26P.wav",
+    "start": 1.685,
+    "duration": 1.25,
+    "profile": "spider",
+    "variant": 1,
+    "file": "rail-spider-shot-1.wav",
+    "sourceSha256": "311a5b016bebc21e7d812ef0756174fbdc77454229512bd5a64101ec055e8807",
+    "synthLayerSha256": "aa200f4c4b28bfaafd24bbd30a90fc75b04fa16c301d68f93ad8adf6076fc427",
+    "sha256": "7229def53895d0e27f2a666b7f2bd3fd874d43b14497195219b90807d4161ebd"
+  }
+]

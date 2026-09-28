@@ -1,0 +1,103 @@
+{
+  "pistol": [
+    "/audio/field/pistol-0.wav",
+    "/audio/field/pistol-1.wav",
+    "/audio/field/pistol-2.wav"
+  ],
+  "ar": [
+    "/audio/field/ar-0.wav",
+    "/audio/field/ar-1.wav"
+  ],
+  "shotgun": [
+    "/audio/field/shotgun-0.wav",
+    "/audio/field/shotgun-1.wav"
+  ],
+  "dog-bite": [
+    "/audio/field/dog-bite-0.wav",
+    "/audio/field/dog-bite-1.wav"
+  ],
+  "dog-death": [
+    "/audio/field/dog-death-0.wav",
+    "/audio/field/dog-death-1.wav"
+  ],
+  "zombie-death": [
+    "/audio/field/zombie-death-0.wav",
+    "/audio/field/zombie-death-1.wav",
+    "/audio/field/zombie-death-2.wav"
+  ],
+  "scavenger-death": [
+    "/audio/field/scavenger-death-0.wav",
+    "/audio/field/scavenger-death-1.wav",
+    "/audio/field/scavenger-death-2.wav"
+  ],
+  "explosion": [
+    "/audio/field/explosion-0.wav"
+  ],
+  "reload-pistol": [
+    "/audio/field/reload-pistol-0.wav"
+  ],
+  "reload-ar": [
+    "/audio/field/reload-ar-0.wav"
+  ],
+  "reload-shotgun": [
+    "/audio/field/reload-shotgun-0.wav"
+  ],
+  "equip": [
+    "/audio/field/equip-0.wav"
+  ],
+  "grenade-throw": [
+    "/audio/field/grenade-throw-0.wav"
+  ],
+  "flesh-hit": [
+    "/audio/field/flesh-hit-0.wav",
+    "/audio/field/flesh-hit-1.wav",
+    "/audio/field/flesh-hit-2.wav"
+  ],
+  "metal-hit": [
+    "/audio/field/metal-hit-0.wav",
+    "/audio/field/metal-hit-1.wav",
+    "/audio/field/metal-hit-2.wav"
+  ],
+  "surface-hit": [
+    "/audio/field/surface-hit-0.wav",
+    "/audio/field/surface-hit-1.wav",
+    "/audio/field/surface-hit-2.wav"
+  ],
+  "step-concrete": [
+    "/audio/field/step-concrete-0.wav",
+    "/audio/field/step-concrete-1.wav",
+    "/audio/field/step-concrete-2.wav"
+  ],
+  "step-grass": [
+    "/audio/field/step-grass-0.wav",
+    "/audio/field/step-grass-1.wav",
+    "/audio/field/step-grass-2.wav"
+  ],
+  "step-metal": [
+    "/audio/field/step-metal-0.wav",
+    "/audio/field/step-metal-1.wav",
+    "/audio/field/step-metal-2.wav"
+  ],
+  "door": [
+    "/audio/field/door-0.wav",
+    "/audio/field/door-1.wav",
+    "/audio/field/door-2.wav"
+  ],
+  "robot-death": [
+    "/audio/field/robot-death-0.wav",
+    "/audio/field/robot-death-1.wav",
+    "/audio/field/robot-death-2.wav"
+  ],
+  "rail-charge": [
+    "/audio/field/rail-charge-0.wav",
+    "/audio/field/rail-charge-1.wav"
+  ],
+  "rail-player-shot": [
+    "/audio/field/rail-player-shot-0.wav",
+    "/audio/field/rail-player-shot-1.wav"
+  ],
+  "rail-spider-shot": [
+    "/audio/field/rail-spider-shot-0.wav",
+    "/audio/field/rail-spider-shot-1.wav"
+  ]
+}

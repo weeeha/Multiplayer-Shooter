@@ -1,5 +1,33 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#101712"><title>Exclusion — Combat field test</title></head>
-<body><div id="app"><div id="game"></div><div id="interface"></div></div><script type="module" src="/src/main.ts"></script></body>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#101712"><title>Exclusion — Combat field test</title>
+<style>
+  #startup{position:fixed;inset:0;z-index:100;display:grid;place-items:center;box-sizing:border-box;padding:32px;background:#101815;color:#dedccf;font:14px/1.6 Arial,Helvetica,sans-serif}
+  #startup .startup-card{width:min(420px,100%);border-top:2px solid #c4a16b;padding-top:24px}
+  #startup .startup-label{color:#c4a16b;font:11px 'Courier New',monospace;letter-spacing:3px}
+  #startup h1{font-size:36px;line-height:1.15;margin:24px 0 16px;letter-spacing:-1px}
+  #startup p{color:#a5ada1;margin:12px 0}
+  #startup progress{appearance:none;display:block;width:100%;height:7px;margin:24px 0;border:0;background:#334038;accent-color:#c4a16b}
+  #startup progress::-webkit-progress-bar{background:#334038}
+  #startup progress::-webkit-progress-value{background:#c4a16b}
+  #startup progress::-moz-progress-bar{background:#c4a16b}
+  #startup progress[hidden]{display:none}
+  #startup a{display:inline-block;margin-top:16px;color:#c4a16b;text-underline-offset:4px}
+  #startup small{display:block;color:#838d7d;margin-top:18px}
+</style></head>
+<body>
+  <div id="startup" role="status" aria-live="polite">
+    <div class="startup-card">
+      <div class="startup-label">EXCLUSION / COLD RELAY</div>
+      <h1 id="startup-title">Loading the zone.</h1>
+      <p id="startup-message">Starting the game…</p>
+      <progress id="startup-progress" max="100" value="0" aria-label="Artwork loading progress"></progress>
+      <small>The first visit downloads the artwork and may take a little longer.</small>
+      <a id="startup-retry" href="">Reload</a>
+      <noscript><p>Enable JavaScript to play Exclusion.</p></noscript>
+    </div>
+  </div>
+  <div id="app"><div id="game"></div><div id="interface"></div></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
 </html>

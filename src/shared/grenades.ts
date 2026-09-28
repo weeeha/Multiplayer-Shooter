@@ -26,10 +26,10 @@ export function stepGrenades(w:World,dt:number):void {
     for(const a of [w.player,...w.enemies.map(e=>e.actor)]){
       const d=Math.hypot(a.pos.x-g.pos.x,a.pos.y-g.pos.y);
       if(a.hp<=0||d>=GRENADE.radius||walls.some(b=>segmentRectFraction(g.pos,a.pos,b)!==null))continue;
-      const material=a.kind==='robot'||a.armor>0?'metal':'flesh';
+      const material=(a.kind==='robot'||a.kind==='spider')||a.armor>0?'metal':'flesh';
       w.events.push({id:w.nextEventId++,time:w.time,kind:'impact',pos:{...a.pos},direction:{x:a.pos.x-g.pos.x,y:a.pos.y-g.pos.y},actorId:a.id,targetId:a.id,material});
       applyDamage(a,Math.round(GRENADE.damage*(1-d/GRENADE.radius)));
-      if(a.hp<=0)w.events.push({id:w.nextEventId++,time:w.time,kind:'death',pos:{...a.pos},direction:{x:0,y:0},actorId:a.id,material:a.kind==='robot'?'metal':'flesh'});
+      if(a.hp<=0)w.events.push({id:w.nextEventId++,time:w.time,kind:'death',pos:{...a.pos},direction:{x:0,y:0},actorId:a.id,material:(a.kind==='robot'||a.kind==='spider')?'metal':'flesh'});
     }
     return false;
   });
