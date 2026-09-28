@@ -1,0 +1,11 @@
+{
+  "title": "Cold Relay \u2014 After the Signal",
+  "origin": "Original deterministic synthesis; no external samples",
+  "recipe": "tools/build-ambient-music.py",
+  "seconds": 48,
+  "sampleRate": 24000,
+  "channels": 2,
+  "peak": 0.21796136855388695,
+  "rms": 0.06380349673941868,
+  "sha256": "a5dcd4a2c5b5710cccfa3554ecf0fb5a8846c61ae1d65be1bc5392775a7448c2"
+}

@@ -1,6 +1,7 @@
 import {expect,test} from 'vitest';
 import {createWorld,stepWorld} from '../../src/shared/simulation';
 import {applyDamage,stepWeapon,switchWeapon} from '../../src/shared/combat';
+import {WEAPONS} from '../../src/shared/tuning';
 import {input} from './fixtures';
 
 test('armor absorbs damage before health, including overflow',()=>{
@@ -17,6 +18,22 @@ test('shotgun fires a spread for one shell and AR fires faster than pistol',()=>
   for(let i=0;i<30;i++)stepWeapon(ar.player,input({fire:true}),ar,1/30);
   expect(ar.projectiles.length).toBe(10);expect(ar.player.ammo).toBe(20);
 });
+test('shotgun spread varies reproducibly between shells without leaving its cone',()=>{
+  const fireSequence=()=>{
+    const w=createWorld();switchWeapon(w.player,'shotgun');w.player.aim={x:1,y:0};
+    const patterns:number[][]=[];
+    for(let shell=0;shell<2;shell++){
+      stepWeapon(w.player,input({fire:true}),w,1/30);
+      patterns.push(w.projectiles.slice(-WEAPONS.shotgun.pellets).map(p=>Math.atan2(p.velocity.y,p.velocity.x)));
+      w.player.shotCooldown=0;
+    }
+    return patterns;
+  };
+  const patterns=fireSequence();
+  expect(patterns[1]).not.toEqual(patterns[0]);
+  expect(fireSequence()).toEqual(patterns);
+  for(const angle of patterns.flat())expect(Math.abs(angle)).toBeLessThanOrEqual(WEAPONS.shotgun.spread/2);
+});
 test('switching preserves weapon ammunition and cannot bypass cooldown or reload',()=>{
   const w=createWorld();stepWeapon(w.player,input({fire:true}),w,1/30);
   switchWeapon(w.player,'ar');switchWeapon(w.player,'pistol');
@@ -25,9 +42,9 @@ test('switching preserves weapon ammunition and cannot bypass cooldown or reload
   stepWeapon(w.player,input({reloadPressed:true}),w,1/30);switchWeapon(w.player,'ar');
   expect(w.player.reloadRemaining).toBe(0);switchWeapon(w.player,'pistol');expect(w.player.ammo).toBe(11);
 });
-test('roster has three armed enemies, a dog and a zombie',()=>{
-  const w=createWorld();expect(w.enemies).toHaveLength(5);
-  expect(w.enemies.filter(e=>e.actor.weapon!=='none').map(e=>e.actor.weapon).sort()).toEqual(['ar','pistol','shotgun']);
+test('roster has armed enemies, a dog, a zombie and a spider robot',()=>{
+  const w=createWorld();expect(w.enemies).toHaveLength(6);
+  expect(w.enemies.filter(e=>e.actor.weapon!=='none').map(e=>e.actor.weapon).sort()).toEqual(['ar','ar','pistol','shotgun']);
   expect(w.enemies.map(e=>e.actor.kind)).toContain('dog');expect(w.enemies.map(e=>e.actor.kind)).toContain('zombie');
 });
 test('dog closes distance faster than zombie and melee respects walls and cooldown',()=>{
@@ -39,7 +56,7 @@ test('dog closes distance faster than zombie and melee respects walls and cooldo
   zombie.actor.hp=0;dog.actor.pos={x:125,y:100};w.player.armor=0;
   w.map.blockers=[{id:'wall',x:112,y:70,w:4,h:60,movement:true,sight:true,shots:true}];
   for(let i=0;i<30;i++)stepWorld(w,input(),1/30);expect(w.player.hp).toBe(100);
-  w.map.blockers=[];for(let i=0;i<21;i++)stepWorld(w,input(),1/30);
+  w.map.blockers=[];for(let i=0;i<26;i++)stepWorld(w,input(),1/30);
   expect(w.player.hp).toBeLessThan(100);expect(w.player.hp).toBeGreaterThanOrEqual(88);
 });
 
@@ -54,7 +71,7 @@ test('dead melee enemies cannot attack and all enemies are hittable',()=>{
   for(const e of w.enemies)e.actor.hp=0;
   const dog=w.enemies.find(e=>e.actor.kind==='dog')!;dog.actor.pos={x:125,y:100};dog.brain.mode='chase';dog.brain.remaining=0;
   stepWorld(w,input(),1/30);expect(w.player.armor).toBe(50);
-  dog.actor.hp=60;w.player.aim={x:1,y:0};stepWorld(w,input({fire:true}),1/30);expect(dog.actor.hp).toBe(35);
+  dog.actor.hp=60;w.player.aim={x:1,y:0};stepWorld(w,input({fire:true,aimTarget:{...dog.actor.pos}}),1/30);expect(dog.actor.hp).toBe(35);
 });
 
 test('shooters outside the vertical gameplay view cannot engage the player',()=>{

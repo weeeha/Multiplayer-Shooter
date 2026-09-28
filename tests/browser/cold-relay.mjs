@@ -11,7 +11,7 @@ const aim=async(x,y)=>{const s=await state(),b=await page.locator('canvas').boun
 const shot=async name=>{await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await page.screenshot({path:`${dir}/${name}.png`});await writeFile(`${dir}/${name}.json`,JSON.stringify(await state(),null,2));};
 const restart=async()=>{await page.goto('http://127.0.0.1:5173/?test=1');await page.locator('#start-btn').click();await advance(34);};
 try{
- await restart();let s=await state();assert.equal(s.visuals.direction,'cold-relay');assert.equal(s.visuals.spriteCount,6);await shot('01-street');
+ await restart();let s=await state();assert.equal(s.visuals.direction,'cold-relay');assert.equal(s.visuals.spriteCount,7);await shot('01-street');
  await aim(500,570);await page.mouse.down();await advance(34);await page.mouse.up();s=await state();assert.ok(s.visuals.particles>=2);await shot('02-muzzle');
  await key('KeyD',1600);await key('KeyW',550);await aim(532,410);await page.mouse.down();await advance(67);await page.mouse.up();await advance(33);await shot('03-door-impact');
  assert.ok((await state()).visuals.particles>2);
@@ -23,5 +23,5 @@ try{
  }
  await page.mouse.up();s=await state();assert.equal(s.visibleRobot?.hp,0);assert.ok(s.visuals.particles>10);assert.ok(s.visuals.particles<=240);await shot('05-robot-sparks');
  await page.getByRole('button',{name:'Open field settings'}).click();await page.locator('#restart-btn').click();await advance(34);assert.equal((await state()).visuals.particles,0);await shot('06-reset');
- assert.deepEqual(errors,[]);const report={status:'passed',checks:['Generated artwork loaded','Six character renderers','Muzzle/casing effects','Closed door impacts','Robot impact and destruction sparks','Bounded particles','Restart clears effects'],errors};console.log(report);await writeFile(`${dir}/report.json`,JSON.stringify(report,null,2));
+ assert.deepEqual(errors,[]);const report={status:'passed',checks:['Generated artwork loaded','Seven character renderers','Muzzle/casing effects','Closed door impacts','Robot impact and destruction sparks','Bounded particles','Restart clears effects'],errors};console.log(report);await writeFile(`${dir}/report.json`,JSON.stringify(report,null,2));
 }catch(e){await shot('failure');console.error(e,await state());process.exitCode=1;}finally{await browser.close();}

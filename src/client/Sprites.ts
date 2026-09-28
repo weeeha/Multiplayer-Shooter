@@ -1,11 +1,12 @@
 import type Phaser from 'phaser';
-export const WALK_TYPES=['player-pistol','player-ar','player-shotgun','robot','scav-ar','scav-shotgun','dog','zombie'] as const;
+export const WALK_TYPES=['player-pistol','player-ar','player-shotgun','player-railgun','robot','scav-ar','scav-shotgun','dog','zombie','spider'] as const;
 
 export function preloadArt(scene:Phaser.Scene):void {
-  for(const name of ['characters-key','armed-characters-key','props-key','surfaces'])scene.load.image(name,`/art/cold-relay/${name}.png`);
+  for(const name of ['characters-key','armed-characters-key','props-key','surfaces','equipment-key','railgun-key'])scene.load.image(name,`/art/cold-relay/${name}.png`);
   for(const name of WALK_TYPES)scene.load.image(`walk-source-${name}`,`/art/cold-relay/walk/${name}.png`);
 }
 export const armedOrigins=new Map<string,number>();
+export const equipmentIcons=new Map<string,string>();
 
 // Color-keyed sprite atlases are converted to engine textures once, at load time.
 // The generated originals remain untouched and are retained with their provenance.
@@ -37,12 +38,24 @@ function keyedAtlas(scene:Phaser.Scene,source:string,key:string,cols:number,rows
   }
 }
 export function prepareArt(scene:Phaser.Scene):void {
+  keyedAtlas(scene,'equipment-key','equipment',3,2,[0,430/1024,1]);
+  for(const [i,name] of ['pistol','ar','shotgun','medical','armor','grenade'].entries()){
+    const f=scene.textures.getFrame('equipment',`${Math.floor(i/3)}-${i%3}`),canvas=document.createElement('canvas');
+    canvas.width=f.cutWidth;canvas.height=f.cutHeight;
+    canvas.getContext('2d')!.drawImage(f.source.image as HTMLCanvasElement,f.cutX,f.cutY,f.cutWidth,f.cutHeight,0,0,f.cutWidth,f.cutHeight);
+    equipmentIcons.set(name,canvas.toDataURL());
+  }
+  keyedAtlas(scene,'railgun-key','railgun-item',1,1);
+  const railFrame=scene.textures.getFrame('railgun-item','0-0'),railCanvas=document.createElement('canvas');
+  railCanvas.width=railFrame.cutWidth;railCanvas.height=railFrame.cutHeight;
+  railCanvas.getContext('2d')!.drawImage(railFrame.source.image as HTMLCanvasElement,railFrame.cutX,railFrame.cutY,railFrame.cutWidth,railFrame.cutHeight,0,0,railFrame.cutWidth,railFrame.cutHeight);
+  equipmentIcons.set('railgun',railCanvas.toDataURL());
   for(const name of WALK_TYPES){
     const atlasKey=`walk-atlas-${name}`;keyedAtlas(scene,`walk-source-${name}`,atlasKey,4,5,undefined,true);
     const atlas=scene.textures.get(atlasKey);
     for(let pose=0;pose<5;pose++){
       const frames=Array.from({length:4},(_,i)=>atlas.get(`${pose}-${i}`));
-      const scale=(name==='dog'?28:48)/Math.max(...frames.map(f=>f.cutHeight));
+      const scale=(name==='spider'?86:name==='dog'?28:48)/Math.max(...frames.map(f=>f.cutHeight));
       for(let phase=0;phase<4;phase++){
         const key=`walk-${name}-${pose}-${phase}`;if(scene.textures.exists(key))continue;
         const f=frames[phase],width=Math.ceil(f.cutWidth*scale),height=Math.ceil(f.cutHeight*scale);
@@ -51,7 +64,7 @@ export function prepareArt(scene:Phaser.Scene):void {
         const pixels=c.getImageData(0,0,width,height).data;let min=width,max=0;
         // Head/torso anchor stays stable while the feet extend on opposite steps.
         for(let y=0;y<Math.ceil(height*.28);y++)for(let x=0;x<width;x++)if(pixels[(y*width+x)*4+3]>160){min=Math.min(min,x);max=Math.max(max,x);}
-        armedOrigins.set(key,name==='dog'?.5:(min+max+1)/2/width);
+        armedOrigins.set(key,(name==='dog'||name==='spider')?.5:(min+max+1)/2/width);
       }
     }
   }

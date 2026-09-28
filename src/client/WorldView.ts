@@ -4,6 +4,7 @@ import {getBlockers} from '../shared/map';
 import {canSee,visibilityPolygon} from '../shared/visibility';
 import {T} from '../shared/tuning';
 import {terrainTexture,roofTexture} from './art';
+import {railMuzzlePosition} from '../shared/muzzle';
 import {ActorView} from './ActorView';
 import {CombatEffects} from './CombatEffects';
 
@@ -26,6 +27,7 @@ export class WorldView {
   private lastDoors='';
   private lastWorld:World;
   private polygon:Vec2[]=[];
+  private deathElapsed=0;
   constructor(private scene:Phaser.Scene,w:World) {
     this.lastWorld=w;
     const texture=terrainTexture(scene,w.map);
@@ -50,7 +52,7 @@ export class WorldView {
     const actors=scene.add.container(0,0).setDepth(3).enableFilters();
     actors.filters!.external.addMask(this.maskGraphics,false,scene.cameras.main);
     this.dynamic=scene.add.graphics();actors.add(this.dynamic);
-    this.enemyViews=w.enemies.map((_,i)=>new ActorView(scene,actors,[1,2,3,4,5][i]));
+    this.enemyViews=w.enemies.map((_,i)=>new ActorView(scene,actors,[1,2,3,4,5,1][i]));
     this.effectsGraphics=scene.add.graphics().setDepth(7);
     const playerRoot=scene.add.container(0,0).setDepth(6);
     this.playerView=new ActorView(scene,playerRoot,0);
@@ -58,9 +60,11 @@ export class WorldView {
     this.debug=scene.add.graphics().setDepth(9);
     this.labels=w.enemies.map(()=>scene.add.text(0,0,'',{fontFamily:'monospace',fontSize:'8px',color:'#dfceae',backgroundColor:'#172019cc',padding:{x:4,y:3}}).setOrigin(.5,1).setDepth(7));
   }
-  reset(w:World):void {this.lastWorld=w;this.explored.clear();this.memoryGraphics.clear();this.lastPosition={x:-1000,y:-1000};for(const car of this.cars)car.seen=false;this.effects.reset();this.playerView.reset();for(const actor of this.enemyViews)actor.reset();}
+  reset(w:World):void {this.lastWorld=w;this.deathElapsed=0;this.explored.clear();this.memoryGraphics.clear();this.lastPosition={x:-1000,y:-1000};for(const car of this.cars)car.seen=false;this.effects.reset();this.playerView.reset();for(const actor of this.enemyViews)actor.reset();}
   render(w:World,debug:boolean,dt:number):void {
     if(w!==this.lastWorld)this.reset(w);
+    if(w.player.hp<=0)this.deathElapsed=Math.min(.6,this.deathElapsed+dt);
+    const visualTime=w.time+this.deathElapsed;
     const blockers=getBlockers(w.map),pos=w.player.pos;
     const doorsKey=w.map.doors.map(d=>Number(d.open)).join('');
     if(Math.hypot(pos.x-this.lastPosition.x,pos.y-this.lastPosition.y)>1||doorsKey!==this.lastDoors) {
@@ -94,15 +98,23 @@ export class WorldView {
     this.dynamic.clear();this.own.clear();
     w.enemies.forEach((e,i)=>{
       const visible=canSee(pos,e.actor.pos,blockers,T.sight);
-      this.enemyViews[i].update(e.actor,w.time,e.brain.mode,visible);
-      const name=e.actor.kind==='dog'?'RABID DOG':e.actor.kind==='zombie'?'ZOMBIE':e.actor.kind==='robot'?'PISTOL / ROBOT':`${e.actor.weapon==='ar'?'AR':'SHOTGUN'} / SCAV`;
-      this.labels[i].setVisible(visible&&e.actor.hp>0).setPosition(e.actor.pos.x,e.actor.pos.y-61).setText(name);
+      const bite=w.events.filter(event=>event.kind==='bite'&&event.actorId===e.actor.id).at(-1);
+      const death=w.events.find(event=>event.kind==='death'&&event.actorId===e.actor.id);
+      this.enemyViews[i].update(e.actor,visualTime,e.brain.mode,visible,bite,death);
+      if(visible&&e.actor.hp>0&&e.brain.mode==='rail-charge'&&e.brain.lastSeen){
+        const start=railMuzzlePosition(e.actor),end=e.brain.lastSeen,locked=e.brain.remaining<=.35;
+        this.dynamic.lineStyle(locked?2:1,locked?0xff7354:0xe6b668,locked?.9:.5).lineBetween(start.x,start.y-T.visualAimHeight,end.x,end.y-T.visualAimHeight);
+        this.dynamic.strokeCircle(end.x,end.y-T.visualAimHeight,locked?8:12);
+        this.dynamic.fillStyle(0xffdd99,.5+.3*Math.sin(w.time*30)).fillCircle(start.x,start.y-T.visualAimHeight,4);
+      }
+      const name=e.actor.kind==='spider'?'RAIL SPIDER':e.actor.kind==='dog'?'RABID DOG':e.actor.kind==='zombie'?'ZOMBIE':e.actor.kind==='robot'?'PISTOL / ROBOT':`${e.actor.weapon==='ar'?'AR':'SHOTGUN'} / SCAV`;
+      this.labels[i].setVisible(visible&&e.actor.hp>0).setPosition(e.actor.pos.x,e.actor.pos.y-(e.actor.kind==='spider'?104:61)).setText(name);
     });
     for(const p of w.projectiles) {
       const n=Math.hypot(p.velocity.x,p.velocity.y);
-      this.dynamic.lineStyle(2,p.ownerId==='player'?0xf0dd9d:0xe29969,1).lineBetween(p.pos.x,p.pos.y-T.visualAimHeight,p.pos.x-p.velocity.x/n*15,p.pos.y-T.visualAimHeight-p.velocity.y/n*15);
+      this.dynamic.lineStyle(p.rail?4:2,p.rail?0xbdefff:p.ownerId==='player'?0xf0dd9d:0xe29969,1).lineBetween(p.pos.x,p.pos.y-T.visualAimHeight,p.pos.x-p.velocity.x/n*(p.rail?65:15),p.pos.y-T.visualAimHeight-p.velocity.y/n*(p.rail?65:15));
     }
-    this.playerView.update(w.player,w.time,'player',true);
+    this.playerView.update(w.player,visualTime,'player',true,undefined,w.events.find(e=>e.kind==='death'&&e.actorId===w.player.id));
     this.effects.render(this.effectsGraphics,w);
     this.debug.clear();
     if(debug){this.debug.lineStyle(1,0xf6935a,.75);for(const b of blockers)this.debug.strokeRect(b.x,b.y,b.w,b.h);this.debug.lineStyle(1,0xbbda8a,.8).strokePoints(this.polygon.map(p=>new Phaser.Math.Vector2(p.x,p.y)),true);this.debug.strokeCircle(pos.x,pos.y,w.player.radius);}

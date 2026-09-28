@@ -1,0 +1,8 @@
+.env*
+dist/
+.DS_Store
+output/
+docs/
+tools/
+tests/
+progress.md

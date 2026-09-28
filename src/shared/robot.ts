@@ -4,13 +4,15 @@ import {canSee} from './visibility';
 import {distance,moveCircle,normalized} from './geometry';
 import {stepWeapon,applyDamage} from './combat';
 import {T} from './tuning';
+import {stepSpider} from './spider';
 
 export function stepRobot(w:World,dt:number):void {
   stepEnemy(w,w.enemies[0],dt);
 }
 export function stepEnemy(w:World,enemy:Enemy,dt:number):void {
+  if(enemy.actor.kind==='spider'){stepSpider(w,enemy,dt);return;}
   const a=enemy.actor,b=enemy.brain;
-  if(a.hp<=0) {b.mode='dead';return;}
+  if(a.hp<=0) {b.mode='dead';b.bite=undefined;return;}
   const walls=getBlockers(w.map);
   const melee=a.weapon==='none';
   const speed=a.kind==='dog'?185:a.kind==='zombie'?62:T.robotSpeed;
@@ -18,8 +20,21 @@ export function stepEnemy(w:World,enemy:Enemy,dt:number):void {
   const sees=w.player.hp>0&&Math.abs(a.pos.y-w.player.pos.y)<=220&&canSee(a.pos,w.player.pos,walls,T.sight);
   const cmd:InputFrame={move:{x:0,y:0},aim:a.aim,fire:false,reloadPressed:a.ammo===0&&a.reserve>0,interactPressed:false,dashPressed:false};
   b.remaining=Math.max(0,b.remaining-dt);
+  if(b.bite){
+    const bite=b.bite; a.aim={...bite.direction};bite.remaining-=dt;
+    if(!sees){b.bite=undefined;b.remaining=.75;return;}
+    if(bite.remaining<=1e-8){
+      const toPlayer=normalized({x:w.player.pos.x-a.pos.x,y:w.player.pos.y-a.pos.y});
+      if(distance(a.pos,w.player.pos)<=a.radius+w.player.radius+8&&toPlayer.x*bite.direction.x+toPlayer.y*bite.direction.y>.35){
+        const material=w.player.armor>0?'metal':'flesh';applyDamage(w.player,12);
+        w.events.push({id:w.nextEventId++,time:w.time,kind:'impact',pos:{...w.player.pos},direction:{...bite.direction},actorId:a.id,targetId:w.player.id,material});
+      }
+      b.bite=undefined;b.remaining=.75;
+    }
+    return;
+  }
   if(sees) {
-    b.lastSeen={...w.player.pos};a.aim=normalized({x:w.player.pos.x-a.pos.x,y:w.player.pos.y-a.pos.y});
+    b.lastSeen={...w.player.pos};a.aim=normalized({x:w.player.pos.x-a.pos.x,y:w.player.pos.y-a.pos.y});a.aimTarget={...w.player.pos};
     if(b.mode==='patrol'||b.mode==='investigate') {b.mode=melee?'chase':'telegraph';b.remaining=.6;}
   } else if(b.mode==='telegraph'||b.mode==='burst'||b.mode==='chase') {b.mode='investigate';b.remaining=3;}
 
@@ -45,7 +60,10 @@ export function stepEnemy(w:World,enemy:Enemy,dt:number):void {
         const dir=normalized({x:w.player.pos.x-a.pos.x,y:w.player.pos.y-a.pos.y});
         a.pos=moveCircle(a.pos,{x:dir.x*Math.min(d-reach,speed*dt),y:dir.y*Math.min(d-reach,speed*dt)},a.radius,walls.filter(b=>b.movement));
       } else if(b.remaining<=1e-8){
-        applyDamage(w.player,a.kind==='dog'?12:22);b.remaining=a.kind==='dog'?.75:1.25;
+        if(a.kind==='dog'){
+          b.bite={remaining:.16,direction:{...a.aim}};
+          w.events.push({id:w.nextEventId++,time:w.time,kind:'bite',pos:{...a.pos},direction:{...a.aim},actorId:a.id,targetId:w.player.id,material:'flesh'});
+        }else{applyDamage(w.player,22);b.remaining=1.25;}
       }
     }
     return;

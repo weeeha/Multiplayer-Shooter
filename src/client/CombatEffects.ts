@@ -27,10 +27,10 @@ export class CombatEffects {
       const rand=(i:number)=>{const x=Math.sin((e.id+1)*127.1+i*311.7)*43758.5453;return x-Math.floor(x);};
       const angle=Math.atan2(e.direction.y,e.direction.x);
       if(e.kind==='shot'){
-        const x=e.pos.x+Math.cos(angle)*17,y=e.pos.y+Math.sin(angle)*17;
+        const x=e.pos.x-Math.cos(angle)*9,y=e.pos.y-Math.sin(angle)*9;
         add({pos:{x,y:y-T.visualAimHeight},vx:Math.cos(angle+1.5)*55,vy:Math.sin(angle+1.5)*55-22,born:e.time,life:1.1,color:0xceb27a,size:2,type:'case'},e.pos);
-        add({pos:{x:e.pos.x+Math.cos(angle)*30,y:e.pos.y-T.visualAimHeight+Math.sin(angle)*30},vx:Math.cos(angle)*18,vy:-18,born:e.time,life:.38,color:0xa3aaa7,size:3,type:'dust'},e.pos);
-      }else{
+        add({pos:{x:e.pos.x,y:e.pos.y-T.visualAimHeight},vx:Math.cos(angle)*18,vy:-18,born:e.time,life:.38,color:0xa3aaa7,size:3,type:'dust'},e.pos);
+      }else if(e.kind!=='bite'&&e.kind!=='rail-charge'){
         if(e.material==='flesh'&&(e.kind==='impact'||e.kind==='death')){
           const death=e.kind==='death',target=[w.player,...w.enemies.map(e=>e.actor)].find(a=>a.id===(e.targetId??e.actorId));
           const height=target?.kind==='dog'?10:22;
@@ -52,6 +52,10 @@ export class CombatEffects {
         add({pos:{x:e.pos.x,y:e.pos.y-8},vx:0,vy:-12,born:e.time,life:death?.9:.5,color:metal?0x607c84:0x8b9185,size:blast?26:death?9:5,type:'dust'},e.pos);
         this.scars.push({pos:{...e.pos},size:death?13:3,color:metal?0x16262e:0x403c37,born:e.time});
       }
+    }
+    for(const shot of w.events){
+      if(shot.kind!=='shot'||shot.actorId!=='spider'||w.time-shot.time>.09||!visible(shot.pos))continue;
+      g.fillStyle(shot.attack==='rail'?0xbdefff:0xffd991,.85).fillCircle(shot.pos.x,shot.pos.y-T.visualAimHeight,shot.attack==='rail'?6:3);
     }
     for(const grenade of w.grenades){
       if(!visible(grenade.pos))continue;
