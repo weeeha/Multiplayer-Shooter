@@ -2,6 +2,8 @@
 
 A browser PvPvE shooter prototype built with Phaser and TypeScript. The long-term direction is 16+ players entering a ruined map with a cheap gun, searching for loot, and choosing whether to fight, avoid, or cooperate.
 
+![Player aiming an assault rifle at the rail spider, which has a red laser lock on them](docs/art/images/field-feedback/spider-lock.png)
+
 ## Play the local prototype
 
 ```sh
@@ -21,7 +23,7 @@ Open the local address printed by Vite, select a starting weapon, then choose **
 | G | Throw grenade toward cursor |
 | E | Open or close a nearby door |
 | Space | Dash, when enabled |
-| Settings | Music volume, dash, collision display, fullscreen, restart |
+| Field Menu | Music volume, dash, collision display, fullscreen, restart |
 
 ## Implemented
 
