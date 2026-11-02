@@ -1,5 +1,13 @@
 # Multiplayer Shooter
 
+**Problem.** A scavenge-and-shoot game for 16+ players has open questions: how responsive the shooting feels, how uncertain encounters with other players play out, and whether respawning or losing loot is the better penalty.
+
+**Idea.** Build the smallest playable slice first. Players enter a ruined map with a cheap gun and search for loot, and can fight, avoid or cooperate, with line of sight and buildings deciding what each player sees.
+
+**Built.** A local combat prototype in Phaser 4 and TypeScript (working title Exclusion): two enterable buildings, four player weapons, grenades and six hostile types, with occluded line of sight. Online play, loot and 16-player capacity are not built yet. 5 commits on 4 days, Sep 10 to Oct 18, 2026.
+
+**Decision.** Visibility is decided by map geometry. The spec has the server use the same visibility geometry to choose which actors a client receives, because hiding an actor only in the renderer is insufficient.
+
 A browser PvPvE shooter prototype built with Phaser and TypeScript. The long-term direction is 16+ players entering a ruined map with a cheap gun, searching for loot, and choosing whether to fight, avoid, or cooperate.
 
 ![Player aiming an assault rifle at the rail spider, which has a red laser lock on them](docs/art/images/field-feedback/spider-lock.png)
